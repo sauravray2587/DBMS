@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Legal Assistant, Legal Query, Cases, Acts, Legal Help" />
+    <meta name="author" content="Open Soft" />
+    <link rel="stylesheet" href="../static/css/search_results_style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="../static/img/logo.png" rel="shortcut icon" type="image/png"/>
+    <title>Search Results</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <script src="../static/js/search.js"></script>
+    
+
+
+</head>
+<body>
+
+
+<div class="head-wrap-2">
+    <div class="header-2">
+        <div class="mini-header-2">
+
+            <div class="logo-2">
+                <a href="/">
+                    <img src="../static/img/nav-logo.png" width="60px">
+                </a>
+            </div>
+
+            <div class="search-2">
+                <input type="text">
+                <button type="submit" value="search">Search</button>
+
+
+
+            </div>
+
+
+        </div>
+        <div class="maxi-header-2">
+
+
+            <div class="search-box">
+                <div class="close">
+                <i class="fa fa-window-close" aria-hidden="true"></i>
+                </div>
+                <form action="/search" method="get">
+
+                    <div class="filter-wrap">
+                        <div class="filters">
+                            <div class="filter-icon"><img src="../static/img/filter.png" alt="filter">Filter Search</div> <div class="date"><span class="from">from : <input type="date" name="from"></span> <span class="to">to: <input type="date" name="to"></span></div>
+                        </div>
+                        <div class="more-filters">
+                            <div class="category">
+
+                                <select class="category-select" multiple="multiple" name="categories[]">
+                                    <option value="1">Alpha</option>
+                                    <option value="2">Beta</option>
+                                </select>
+                                <p>Categories</p>
+                            </div>
+
+                            <div class="judge">
+
+                                <select class="judge-select" multiple="multiple" name="judges[]">
+
+                                </select>
+                                <p>Judges</p>
+                            </div>
+
+                            <div class="acts">
+
+
+                                <select class="act-select" multiple="multiple" name="acts[]">
+                                    <option value="adf">Tamil Nadu Prevention of Dangerous Activities of Bootleggers, Drug-offenders,
+                                        Goondas, Immoral Traffic Offenders, Forest-offenders, Sand-Offenders, Slum-grabbers and Video
+                                        Pirates Act, 1982
+                                    </option>
+                                </select>
+
+                                <p>Acts</p>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="main">
+    <div class="result-list">
+        {% for case in all_cases %}
+            <div class="result">
+
+
+                <div class="heading">
+                    <p><a href=" {{ url_for('cases', filename= case['filename'] ) }}"> {{ case['casename'] }} </a></p>
+                    <p>https://www.lipsum.com/</p>
+                </div>
+                <div class="info">
+                    <ul>
+                        <li class="date"><strong>Date</strong> : {{ case['date'] }} </li>
+                        <li class="judgement"><strong>Judgement</strong> : {{ case['verdict']}}</li>
+                        <li class="judge-name"><strong>Judge</strong> : {{ case['judge']}} </li>
+                    </ul>
+                </div>
+
+                <div class="summary">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur nobis quasi voluptatibus? Delectus dolorem odio officia tempora temporibus. Beatae consequatur cupiditate dolore dolorem, expedita incidunt necessitatibus neque officia reprehenderit sit! Ab animi beatae dolorum eos esse et explicabo id iure magni nobis optio pariatur reiciendis rem, repudiandae sequi totam ullam.</p>
+                </div>
+
+                <div class="acts-cited">
+                    <p><strong>Acts cited : </strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi, quaerat.</p>
+                </div>
+
+                <div class="categories">
+                    <p><strong>Categories : </strong>Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+        {% endfor %}
+    <div class="more-results">
+
+
+    </div>
+</div>
+<div class="footer-2">
+    <ul>
+        <li><a href="#">Help</a></li>
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Send Feedback</a></li>
+    </ul>
+</div>
+</body>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Legal Assistant</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Legal Assistant, Legal Query, Cases, Acts, Legal Help" />
+    <meta name="author" content="Open Soft" />
+    <link rel="stylesheet" href="../static/css/article_style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- For fa fa-angle-down -->
+
+    <link href="../static/img/logo.png" rel="shortcut icon" type="image/png"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="../static/js/article.js"></script>
+</head>
+<style>
+    .sidebar .tags span {
+        white-space: nowrap;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+
+    }
+
+    .icon img {
+        width: 70px !important;
+        position: relative;
+        top: 5px;
+    }
+
+    html,
+    body {
+        height: 100%;
+        position: relative;
+    }
+
+    .main-container {
+        min-height: 100vh; /* will cover the 100% of viewport */
+        overflow: hidden;
+        display: block;
+        position: relative;
+        padding-bottom: 100px; /* height of your footer */
+    }
+
+</style>
+<body>
+<div class="main-container">
+    <div class="header clearfix">
+
+        <div class="icon">
+            <a href="/" style="text-decoration: none; color: white">
+                <img src="../static/img/nav-logo.png">
+                <span>LegalAssistant.com</span>
+            </a>
+        </div>
+
+        <div class="menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sidebar">
+        <h4>Similar Cases</h4>
+        <ul class="similar-cases">
+            <li><a href="">Lorem ipsum dolor sit amet.</a></li>
+            <li><a href="">Culpa odio officiis ullam voluptate.</a></li>
+            <li><a href="">Dolorem eius eveniet saepe vel!</a></li>
+        </ul>
+        <h4>Acts Cited</h4>
+        <ul class="acts-cited"> 
+            {% for x in acts_cited %}
+                <li><a href=""> {{ x }} </a></li>
+            {% endfor %}
+        </ul>
+        <h4>Categories</h4>
+        <div class="tags">
+            {% for category in categories %}
+                <span> {{ category }} </span>
+            {% endfor %}
+        </div>
+        <h4>Citations</h4>
+        <div class="citations">
+            {% for citation in citations %}
+                <span> {{ citation }} </span>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <div class="article">
+
+        <div class="heading">
+            <h1> {{ casename }}</h1>
+        </div>
+
+        <div class="info">
+            <table>
+                <tr>
+                    <td>Date</td>
+                    <td> {{ date }} </td>
+                </tr>
+                <tr>
+                    <td>Judge</td>
+                    <td> {{ judge }}</td>
+                </tr>
+                <tr>
+                    <td>Verdict</td>
+                    <td> {{ verdict }}</td>
+                </tr>
+                <tr>
+                    <td> Case id: </td>
+                    <td> {{ case_id }} </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="case-specification">
+            <h2>Case Specifications</h2>
+            <ul>
+                {% for line in content %}
+                    <li  class="content"> {{ line }} </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+    </div>
+
+
+    <div class="footer">
+        <ul>
+            <li><a href="#">Help</a></li>
+            <li><a href="#">Send Feedback</a></li>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+        </ul>
+    </div>
+</div>
+</body>
+<script>
+        // document.body.innerHTML = document.body.innerHTML.replace(/there/g, '<span class="highlight">xx</span>')
+        // for(i=0;i<arr.length;i++)
+        // {
+        //     var z = '/' + arr[i] + '/g'
+        //     document.body.innerHTML = document.body.innerHTML.replace(z,'<span class="highlight">xx</span>');
+        // }
+        var myString = document.getElementsByClassName("content");
+        for(var j=0;j<myString.length;j++)
+        {
+            //myString = myString.substring(0, 13);
+            var temp = myString[j].innerHTML.split(" ");
+            //console.log(temp);
+            var ans = "";
+            //console.log("number of words is " + temp.length + "\n");
+            for (var i = 0;i<temp.length;i++)
+            {
+                    if(i%2 === 1)
+                    {
+                        console.log("here");
+                        temp[i] = '<span class="highlight">' + temp[i] + '</span>'
+                    }
+                    ans += temp[i] + " ";
+            }
+            document.getElementsByClassName("content")[j].innerHTML = ans;
+        }
+    </script>
+</html>
