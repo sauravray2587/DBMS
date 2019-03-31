@@ -5,19 +5,34 @@ cnx = mysql.connector.connect(user='root', password='qwerty@123',
                                   database='new_scheme')
 cursor = cnx.cursor(buffered=True)
 
-def updateDb(username,name,password,age,email):
-    # if type(message_new) == type("")
-    sql = "insert into User(username,name,password,age,email) VALUES( '%s', '%s','%s', '%s','%s')" % \
-          (username,name,password,age,email)
+
+def sign_up(username, name, password, age, email):
+    sql = "insert into User(username,name,password,age,email) \
+            VALUES( '%s', '%s','%s', '%s','%s')" % \
+          (username,name, password, age, email)
     cursor_internal_func = cnx.cursor(buffered=True)
     cursor_internal_func.execute(sql)
-    # else:
-    #     sql = "insert into chatbot(candidateId,message,isChatbotReply, responseType , parentid , haveCards,previous) VALUES( '%s', '%s','%s', '%s','%s','%s','%s')" % \
-    #           (candidate_id, message_display, 1, 1, -1, 2, id)
-    #     cursor_internal_func = cnx.cursor(buffered=True)
-    #     cursor_internal_func.execute(sql)
-    #     queryId = cursor_internal_2.lastrowid
     cnx.commit()
 
+
+def check_login(username, password):
+    query = ("SELECT password FROM User"
+             " WHERE username = %s ")
+    cursor.execute(query, (username,))
+    if cursor.arraysize==0:
+        print("User doesn't exist")
+        return False
+
+    for (saved_password,) in cursor:
+        if password == saved_password:
+            return True
+        else:
+            print("Password not matched password = ",password, "actual password = ",saved_password)
+            return False
+
+
 if __name__=="__main__":
-    updateDb("fsociety00","Shubham","say_hi",21,"fsociety@gmail.com")
+    # sign_up("fsociety00","Shubham","say_hi", 21,"fsociety@gmail.com")
+    print(check_login("fsociety00","say_hi"))
+    # Separate list of keywords based on user separators
+
