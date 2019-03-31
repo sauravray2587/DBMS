@@ -13,7 +13,7 @@
           request.form.username }}">
          <input type="password" placeholder="Password" name="password" value="{{
           request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login">
+        <input class="btn btn-default" type="submit" name = "submit-button" value="login">
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
@@ -33,11 +33,8 @@
           request.form.email }}">
         <input type="number" placeholder="Age" name="age" value="{{
           request.form.age }}">
-        <input class="btn btn-default" type="submit" value="Sign-Up">
+        <input class="btn btn-default" type="submit" name = "submit-button" value="signup">
       </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
     </div>
   </body>
 </html>
