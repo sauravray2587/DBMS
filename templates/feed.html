@@ -1,0 +1,33 @@
+<html>
+    <head>
+    <title>Your Newsfeed, Enjoy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    </head>
+    <body>
+
+    <div class="main">
+        <div class="result-list">
+            {% for feed in all_feeds %}
+                <div class="result">
+
+
+                    <div class="heading">
+                        <p> {{ feed['username'] }} </a></p>
+                    </div>
+                    <div class="info">
+                        <ul>
+                            <li class="date"><strong>Date</strong> : {{ feed['date'] }} </li>
+                            <li class="tags"><strong>Tags</strong> : {{ feed['tags']}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="content">
+                        <p>{{ feed['content'] }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+    </div>
+
+    </body>
+</html>

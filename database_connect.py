@@ -1,12 +1,12 @@
 import mysql.connector
 
-cnx = mysql.connector.connect(user='root', password='qw',
+cnx = mysql.connector.connect(user='root', password='qwerty@123',
                                   host='127.0.0.1',
                                   database='new_scheme')
 cursor = cnx.cursor(buffered=True)
 
 def updateDb(username,name,password,age,email):
-    # if type(message_new) == type(""):
+    # if type(message_new) == type("")
     sql = "insert into User(username,name,password,age,email) VALUES( '%s', '%s','%s', '%s','%s')" % \
           (username,name,password,age,email)
     cursor_internal_func = cnx.cursor(buffered=True)
