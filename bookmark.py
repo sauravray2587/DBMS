@@ -1,5 +1,4 @@
 import mysql.connector
-from stories import search_posts
 import operator
 import os
 
@@ -17,7 +16,16 @@ cursor = cnx.cursor(buffered=True)
 
 def bookmark(username, post_id):
 
-	query = ("INSERT INTO Bookmark \
-		VALUES( '%s', '%s')" %(username,post_id)
-	cursor.execute(query)
+	query = ("INSERT INTO Bookmark VALUES( %s, %s)")
+	cursor.execute(query, (username, post_id))
 	cnx.commit()
+
+def unbookmark(username, post_id):
+
+	query = ("delete from Bookmark where username = %s and post_id = %s")
+	cursor.execute(query, (username, post_id))
+
+	cnx.commit()
+
+if __name__ == '__main__':
+	unbookmark('piyushrathipr', 32)
