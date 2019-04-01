@@ -1,6 +1,8 @@
 import mysql.connector
 import operator
 import os
+from stories import *
+
 
 if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
@@ -57,16 +59,14 @@ def get_all_user():
 	return users_list
 
 
-# def get_all_posts():
+def get_all_posts():
 
-# 	query = "SELECT * FROM Post"
+	query = "SELECT * FROM Post"
 
-# 	cursor.execute(query, ())
+	cursor.execute(query, ())
 
-# 	posts_list = []
-
-# 	for ()
+	return get_posts(cursor, None)
 
 
 if __name__ == '__main__':
-	print(get_all_comm())
+	print(get_all_posts())
