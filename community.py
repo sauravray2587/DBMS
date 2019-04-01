@@ -16,28 +16,28 @@ def create_community(community_id, community_name, no_of_members, no_of_posts):
 
 def search_community(community_id):
 
-	query = ("SELECT post_id, username, content, rating, time_posted FROM User_community, Post"
+	query = ("SELECT post_id, username, content, rating, post_time FROM User_community, Post"
 			 " WHERE Post.username = User_community.username and User_community.community_id = %s")
 
 	cursor.execute(query, (community_id,))
 
 	result_dict = {}
 
-	for (post_id, username, content, rating, time_posted) in cursor:
+	for (post_id, username, content, rating, post_time) in cursor:
 
 		temp_dict = {}
 
 		temp_dict['username'] = username
 		temp_dict['content'] = content
 		temp_dict['rating'] = rating
-		temp_dict['time_posted'] = time_posted
+		temp_dict['post_time'] = post_time
 
 		result_dict[post_id] = temp_dict
 
 	unsorted_dict = {}
 
 	for it in result_dict:
-		unsorted_dict[it] = result_dict[it]["time_posted"]
+		unsorted_dict[it] = result_dict[it]["post_time"]
 
 	sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
 
