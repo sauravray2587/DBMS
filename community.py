@@ -25,7 +25,7 @@ def search_community(community_id):
 	result_dict = {}
 
 	for (post_id, username, content, rating, post_time) in cursor:
-
+		print("here")
 		temp_dict = {}
 
 		temp_dict['username'] = username
@@ -55,4 +55,4 @@ def search_community(community_id):
 	return sorted_final_dict
 
 if __name__ == '__main__':
-	search_community('noo')
+	print(search_community('0'))
