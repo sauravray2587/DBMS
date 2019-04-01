@@ -7,9 +7,9 @@ cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 
-def user_post(post_id, username, content, rating, community_id, tags, date):
-	query = ("insert into Post VALUES(%s, %s, %s, %s, %s, %s, %s)")
-	cursor.execute(query, (post_id, username, content, rating, community_id, date))
+def user_post(post_id, username, content, rating, community_id, tags):
+	query = ("insert into Post VALUES(%s, %s, %s, %s, %s, %s, NULL )")
+	cursor.execute(query, (post_id, username, content, rating, community_id))
 
 	cnx.commit()
 
@@ -23,20 +23,20 @@ def user_post(post_id, username, content, rating, community_id, tags, date):
 
 def search_posts(username):
 
-	query = ("SELECT post_id, username, content, rating, community_id, post_date FROM Post"
+	query = ("SELECT post_id, username, content, rating, community_id, post_time FROM Post"
 			 " WHERE username = %s ")
 
 	cursor.execute(query, (username,))
 
 	result_dict = {}
 
-	for (post_id, username, content, rating, community_id) in cursor:
+	for (post_id, username, content, rating, community_id, post_time) in cursor:
 		temp_dict = {}
 		temp_dict['username'] = username
 		temp_dict['content'] = content
 		temp_dict['rating'] = rating
 		temp_dict['community_id'] = community_id
-		temp_dict['post_date'] = post_date
+		temp_dict['post_time'] = post_time
 		temp_dict['tags'] = []
 
 		query = ("SELECT tag_id from Post_tags where post_id = %s")
