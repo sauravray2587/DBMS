@@ -1,5 +1,5 @@
 import mysql.connector
-from stories import search_posts
+from stories import *
 import operator
 import os
 
@@ -22,17 +22,14 @@ def get_feed(username):
 	query = ("SELECT username_2 FROM Follower"
 			 " WHERE username_1 = %s ")
 	cursor.execute(query, (username,))
-	feed_dict = {}
+
+	feed_list = []
 
 	for (following,) in cursor:
-		posts = search_posts(following)
-		for post_id in posts:
-			feed_dict[post_id] = posts[post_id]
+		posts = search_username(following)
+		feed_list.extend(posts)
 
-	feed = {}
-	for key,value in  sorted(feed_dict.items(),key = lambda x: x[1]["post_time"],reverse=True):
-		feed[key] = value
-	return feed
+	return feed_list.sort(key = lambda x: x['post_time'], reverse = True)
 
 
 if __name__=="__main__":

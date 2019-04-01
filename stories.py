@@ -1,7 +1,14 @@
 import mysql.connector
 import operator
+import os
 
-cnx = mysql.connector.connect(user='root', password='qw',
+if (os.environ['USER']=='saurav'):
+    pw = 'qwerty@123'
+else:
+    pw = 'qw'
+
+
+cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
 								  database='web')
 cursor = cnx.cursor(buffered=True)
@@ -47,11 +54,12 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 
 
 def get_posts(cursor, cur_user):
-	result_dict = {}
+	result_list = []
 	# print(cursor._rowcount)
 	for (post_id, username, content, rating, community_id, post_time) in cursor:
 		
 		temp_dict = {}
+		temp_dict['post_id'] = post_id
 		temp_dict['username'] = username
 		temp_dict['content'] = content
 		temp_dict['rating'] = rating
@@ -84,26 +92,32 @@ def get_posts(cursor, cur_user):
 			temp_dict['follows'] = 1
 
 
-		result_dict[post_id] = temp_dict
+		result_list.append(temp_dict)
 
-	unsorted_dict = {}
+	result_list.sort(key = lambda x: x['post_time'], reverse = True)
 
-	for it in result_dict:
-		unsorted_dict[it] = result_dict[it]["post_time"]
-	# print(unsorted_dict)
-	sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
+	return result_list
+	# unsorted_dict = {}
 
-	sorted_final_dict = {}
+	# i = 0
+	# for it in result_list:
+	# 	it = it[0]
+	# 	unsorted_dict[it] = result_list[i]["post_time"]
+	# 	i++
+	# # print(unsorted_dict)
+	# sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
 
-	count = 0
-	for it in sorted_dict:
-		if count >= 10:
-			break
-		sorted_final_dict[it[0]] = result_dict[it[0]]
+	# sorted_final_list = {}
 
-		count += 1
+	# count = 0
+	# for it in sorted_dict:
+	# 	if count >= 10:
+	# 		break
+	# 	sorted_final_list[it[0]] = result_list[it[0]]
 
-	return sorted_final_dict
+	# 	count += 1
+
+	# return sorted_final_list
 
 
 
@@ -114,7 +128,9 @@ def search_username(username, cur_user):
 
 	cursor.execute(query, (username,))
 	
-	return get_posts(cursor, cur_user) 
+	x = get_posts(cursor, cur_user)
+	
+	return x
 
 
 if __name__ == '__main__':

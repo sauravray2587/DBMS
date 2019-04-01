@@ -1,8 +1,14 @@
 import mysql.connector
 import operator
 from stories import *
+import os
 
-cnx = mysql.connector.connect(user='root', password='qw',
+if (os.environ['USER']=='saurav'):
+    pw = 'qwerty@123'
+else:
+    pw = 'qw'
+
+cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
 								  database='web')
 cursor = cnx.cursor(buffered=True)
