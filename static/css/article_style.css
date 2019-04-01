@@ -216,7 +216,7 @@ a:not(.header a, .footer a):hover {
     .header .menu , .header .icon{
 
         float: none;
-        width: 100%;
+        width: 50%;
     }
     .header .menu ul {
         padding: 0;

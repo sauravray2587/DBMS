@@ -25,7 +25,7 @@ a
     color: white;
     position: fixed;
     top: 0;
-    width: 100%;
+    width: 50%;
 
     padding: 10px;
     z-index: 1000;
@@ -141,13 +141,13 @@ input[type=date]:focus {
     margin-bottom: 5%;
 }
 
-.more-filters .category, .more-filters .judge {
+.more-filters .category {
     width: 45%;
 
 }
 
 .more-filters .acts {
-    width: 100%;
+    width: 50%;
     margin: 10px auto 10px auto;
 }
 
@@ -170,7 +170,7 @@ input[type=date]:focus {
     color: white;
     position: fixed;
     bottom: 0;
-    width: 100%;
+    width: 50%;
 
     padding: 10px;
 }
@@ -221,7 +221,7 @@ input[type=date]:focus {
         flex-flow: column wrap;
     }
 
-    .more-filters .category, .more-filters .judge, .more-filters .acts {
+    .more-filters .category {
         width: 100%;
         margin: auto;
     }
@@ -239,7 +239,7 @@ input[type=date]:focus {
     }
 
     .more-filters {
-        width: 100%;
+        width: 50%;
     }
 
 }
@@ -255,7 +255,7 @@ input[type=date]:focus {
         text-align: center;
     }
     .footer ul {
-        width: 100%;
+        width: 50%;
         float: none !important;
         margin: 0;
 

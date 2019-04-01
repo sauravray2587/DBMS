@@ -22,7 +22,9 @@
     </head>
     <body>
 
-    <div class="main" align="center">
+    <h2>{{username}}</h2>
+        <br>
+    <div class="main" align = "center">
         {% if display_follow %}
         <div class="follow">
             <form action="" method="post">
@@ -34,13 +36,13 @@
             </form>
         </div>
         {% endif %}
-        <div class="result-list" align="center">
+        <div class="result-list">
             {% for feed in all_feeds %}
                 <div class="result">
 
 
                     <div class="heading">
-                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['date'] }} </a></p>
+                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </a></p>
                         <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                     </div>
                     <!-- <div class="info" align = "center">
@@ -50,13 +52,18 @@
                         </ul>
                     </div>
  -->
-                    <div class="content">
+                    <div class="summary">
                         <p>{{ feed['content'] }}</p>
                     </div>
+                    <!--  , username =  {{ username }} ) }} -->
+                    <a href = "{{ url_for('bookmark', bookmark_id= feed['post_id']) }} " > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
 
-                    <form action="" method="post">
-                      <input class="btn btn-default" type="submit" name = "button" value="bookmark">
-                    </form>
+                    {% if follow_status %}
+                    <a href = "{{ url_for('upvote', upvote_id= feed['post_id']) }}" > <input class="btn btn-default" type="submit" name = "button" value="Upvote">
+                    <br>
+                    {% endif %}
+
+                    <br>
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>
                     </form> -->
