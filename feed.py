@@ -3,7 +3,7 @@ from stories import search_posts
 import operator
 import os
 
-if (os.getlogin()=='saurav'):
+if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
 else:
     pw = 'qw'
@@ -22,7 +22,6 @@ def get_feed(username):
 	query = ("SELECT username_2 FROM Follower"
 			 " WHERE username_1 = %s ")
 	cursor.execute(query, (username,))
-	cnx.commit()
 	feed_dict = {}
 
 	for (following,) in cursor:

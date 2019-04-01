@@ -36,14 +36,7 @@ def user_post(post_id, username, content, rating = 0, tags = [], community_id = 
 		cnx.commit()
 
 
-
-def search_posts(username):
-
-	query = ("SELECT post_id, username, content, rating, community_id, post_time FROM Post"
-			 " WHERE username = %s ")
-
-	cursor.execute(query, (username,))
-
+def get_posts(cursor):
 	result_dict = {}
 
 	for (post_id, username, content, rating, community_id, post_time) in cursor:
@@ -64,6 +57,15 @@ def search_posts(username):
 		result_dict[post_id] = temp_dict
 
 	return result_dict
+
+def search_posts(username):
+
+	query = ("SELECT post_id, username, content, rating, community_id, post_time FROM Post"
+			 " WHERE username = %s ")
+
+	cursor.execute(query, (username,))
+
+	return get_posts(cursor) 
 
 
 if __name__ == '__main__':
