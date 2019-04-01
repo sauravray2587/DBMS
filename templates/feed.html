@@ -67,14 +67,16 @@
         <div class="post">
             <p><a href=" {{ url_for('post') }}"> Post a feed </a></p>
         </div>
+        {% if all_feeds|length > 0 %}
         <div class="result-list">
             {% for feed in all_feeds %}
                 <div class="result">
 
 
                     <div class="heading">
-                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['date'] }} </a></p>
+                        <p class="username"><strong>Username</strong> : {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </a></p>
                         <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
+                        <p class="ratings"> <strong> Rating : {{ feed['rating'] }} </strong></p>
                     </div>
                     <!-- <div class="info" align = "center">
                         <ul>
@@ -88,7 +90,7 @@
                     </div>
 
                     <!-- <form action="" method="post"> -->
-                      <a href = "{{ url_for('bookmark', bookmark_id= feed['id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="{{ feed['id']}}">
+                      <a href = "{{ url_for('bookmark', bookmark_id= feed['id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
                     <!-- </form> -->
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>
@@ -97,6 +99,7 @@
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 
     

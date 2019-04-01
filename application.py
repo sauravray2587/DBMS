@@ -1,5 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request
-# from feed import *
+import feed 
+import stories
+from datetime import datetime
 # Route for handling the login page logic
 app = Flask(__name__)
 
@@ -32,7 +34,8 @@ def login():
 def home(username):
 	# return 'User %s' % username
 	# Put Different Tabs for the different features
-	feed_content = get_feed1(username)
+	print("Requesting Feed")
+	feed_content = get_feed1(username, cur_user)
 
 	if request.method == 'POST':
 		if request.form['button']=="search_user":
@@ -43,7 +46,7 @@ def home(username):
 				# search_for_user
 				return redirect(url_for('profile', username = request.form['search_text']))
 		elif request.form['button']=="My Profile":
-			return redirect(url_for('myfeeds', username = cur_user))
+			return redirect(url_for('profile', username = cur_user))
 		elif request.form['button']=="tag_search":
 			# tags = request.form['categories[]']
 			# print(tags)
@@ -64,14 +67,20 @@ def home(username):
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
+	print("username : ", username)
 	feed_content = get_feed_user1(username)
+	if (username == cur_user):
+		display_follow = False
+	else:
+		display_follow = True
+
 	is_following = True
 	if request.method == 'POST':
 		if request.form['button'] == 'bookmark':
 			# .... insert a function to bookmark a post
 			is_following = True
 			# .... insert a function here to check is user1 follows user2
-			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
+			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
 		else:
 			if request.form['button'] == 'unfollow':
 				# .... insert a function to unfollow a user
@@ -79,15 +88,10 @@ def profile(username):
 			else:
 				# .... insert a function to follow a user
 				is_following = True
-		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
+		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
 	else:
-		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
+		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
 
-
-@app.route('/myfeeds/<username>', methods = ['GET', 'POST'])
-def myfeeds(username):
-	feed_content = get_feed(username)
-	return render_template('feed.html', username = cur_user,  all_feeds = feed_content)
 
 
 # @app.route('/bookmark/<feed_id>', methods = ['GET', 'POST'])
@@ -110,10 +114,12 @@ def post():
 		preq = request.form['preq']
 		preq = preq.replace(" ", "")
 		preq = preq.split(',')
+		comm = request.form['comm']
 		# assign username here
 		username = cur_user
+		stories.user_post(username, content, 5, tags, comm)
 		# post_to_database()
-		return "Your Post Submitted"
+		return redirect(url_for('home', username = cur_user))
 	return render_template("post.html")
 
 @app.route('/bookmark/<bookmark_id>', methods = ['GET', 'POST'])
@@ -122,10 +128,15 @@ def bookmark(bookmark_id):
 	print("bookmarked, ", bookmark_id)
 	return redirect(url_for('home', username = cur_user))
 
-def get_feed1(username):
-	database_active = False
+def get_feed1(username, cur_user):
+	database_active = True
 	if database_active == True:
-		feed_content = get_feed(username)
+		feed_content = feed.get_feed(cur_user)
+		print("feed len", len(feed_content))
+		for x in feed_content:
+			print("post post 1: ", x)
+			x['post_time'] = x['post_time'].date()
+			print("post post 2: ", x)
 	else:
 		temp = {}
 		temp['username'] = 'random_user1'
@@ -137,9 +148,14 @@ def get_feed1(username):
 	return feed_content
 
 def get_feed_user1(username):
-	database_active = False
+	database_active = True
 	if database_active == True:
-		feed_content = get_feed_user(username)
+		feed_content = stories.search_username(username, cur_user)
+		print("feed len", len(feed_content))
+		for x in feed_content:
+			# print("post post 1: ", x)
+			x['post_time'] = x['post_time'].date()
+			print("post post 2: ", x)
 	else:
 		temp = {}
 		temp['username'] = 'random_user1'

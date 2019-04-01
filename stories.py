@@ -16,7 +16,9 @@ cursor1 = cnx.cursor(buffered=True)
 
 
 def user_post(username, content, rating = 0, tags = [], community_id = None):
-
+	community_id = community_id.replace(" ", "")
+	if len(community_id)==0:
+		community_id = None
 	query = ("select post_id from Post order by post_id desc limit 0, 1")
 	cursor.execute(query, ())
 
@@ -24,10 +26,12 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 		id_here = int(post_id) + 1
 
 	if community_id != None:
-		query = ("insert into Post VALUES(%s, %s, %s, %s, %s, NULL )")
+		s = "INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES (%s, %s, %s, %s, %s )";
+		query = (s)
 		cursor.execute(query, (id_here, username, content, rating, community_id))
 	else:
-		query = ("insert into Post VALUES(%s, %s, %s, %s, NULL, NULL)")
+		s = "INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES (%s, %s, %s, %s, NULL )";
+		query = (s)
 		cursor.execute(query, (id_here, username, content, rating))
 	cnx.commit()
 
@@ -46,7 +50,7 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 
 
 		query = ("insert into Post_tags values(%s, %s)")
-		cursor.execute(query, (post_id, tag))
+		cursor.execute(query, (id_here, tag))
 
 		cnx.commit()
 
@@ -95,7 +99,7 @@ def get_posts(cursor, cur_user):
 		result_list.append(temp_dict)
 
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
-
+	print("result, ", result_list)
 	return result_list
 	# unsorted_dict = {}
 
@@ -127,9 +131,9 @@ def search_username(username, cur_user):
 			 " WHERE username = %s ")
 
 	cursor.execute(query, (username,))
-	
+	# print("row count, ", cursor._rowcount)
 	x = get_posts(cursor, cur_user)
-	
+	# print("x, " , x)
 	return x
 
 
