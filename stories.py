@@ -7,13 +7,29 @@ cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 
-def user_post(post_id, username, content, rating, community_id, tags):
-	query = ("insert into Post VALUES(%s, %s, %s, %s, %s, %s, NULL )")
-	cursor.execute(query, (post_id, username, content, rating, community_id))
-
+def user_post(post_id, username, content, rating = 0, tags = [], community_id = None):
+	if community_id != None:
+		query = ("insert into Post VALUES(%s, %s, %s, %s, %s, NULL )")
+		cursor.execute(query, (post_id, username, content, rating, community_id))
+	else:
+		query = ("insert into Post VALUES(%s, %s, %s, %s, NULL, NULL)")
+		cursor.execute(query, (post_id, username, content, rating))
 	cnx.commit()
 
+
+
 	for tag in tags:
+
+		query = ("select * from Tags where tag_id = %s")
+		cursor.execute(query, (tag, ))
+
+		if cursor._rowcount == 0:
+
+			query = ("insert into Tags VALUES(%s, NULL, 0)")
+			cursor.execute(query, (tag, ))
+			cnx.commit()
+
+
 		query = ("insert into Post_tags values(%s, %s)")
 		cursor.execute(query, (post_id, tag))
 
@@ -53,4 +69,4 @@ def search_posts(username):
 
 
 if __name__ == '__main__':
-	print(search_posts('fsociety00'))
+	user_post('34' ,'piyushrathipr', 'Uber code', 2.2, tags = ['DL', 'Full Stack'])

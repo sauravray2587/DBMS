@@ -15,6 +15,8 @@ def create_community(community_id, community_name, no_of_members, no_of_posts):
 
 	cnx.commit()
 
+
+
 def search_community(community_id):
 
 	query = ("SELECT post_id, Post.username, content, rating, post_time FROM User_community, Post"
@@ -25,7 +27,7 @@ def search_community(community_id):
 	result_dict = {}
 
 	for (post_id, username, content, rating, post_time) in cursor:
-		print("here")
+		# print("here")
 		temp_dict = {}
 
 		temp_dict['username'] = username
@@ -39,7 +41,7 @@ def search_community(community_id):
 
 	for it in result_dict:
 		unsorted_dict[it] = result_dict[it]["post_time"]
-
+	# print(unsorted_dict)
 	sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
 
 	sorted_final_dict = {}
