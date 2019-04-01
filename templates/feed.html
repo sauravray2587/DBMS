@@ -29,36 +29,51 @@
         <h2>{{username}}</h2>
         <br>
         <form action="" method="post">
-           <div style="text-align: right; " >
-          <input type="text" placeholder="Search for a User or Community" name="search_text" value="{{
-            request.form.search_text }}">
-          <input  class="btn btn-default" type="submit" name = "button" value="search_user">
-          </div>
-        </form>
-
-        {% if error %}
-          <p class="error"><strong>Error:</strong> {{ error }} </p>
-        {% endif %}
-        <br>
-        
-        <form action="" method="post">
           <input class="btn btn-default" type="submit" name = "button" value="My Profile">
         </form>
 
         <br>
+
+        <form id="form2" action="" method="POST" enctype="multipart/form-data">
+           <!-- <div style="text-align: right; " > -->
+              <select class="category-select" id="categories-opt1" name = "users" >
+                {% for user in all_user %}
+                <option value="{{ user }}">{{ user }}</option>
+                {% endfor %}
+              </select>
+            <input  class="btn btn-default" type="submit" name = "button" value="Search User">
+          <!-- </div> -->
+        </form>
+        <br>
+        <form id="form1" action="" method="POST" enctype="multipart/form-data">
+           <!-- <div style="text-align: right; " > -->
+            <select class="category-select" id="categories-opt2" name = "comm" >
+                {% for comm in all_comm %}
+                <option value="{{ comm }}">{{ comm }}</option>
+                {% endfor %}
+              </select>
+            <input  class="btn btn-default" type="submit" name = "button" value="Search Community">
+          <!-- </div> -->
+        </form>
+
+        <!-- {% if error %}
+          <p class="error"><strong>Error:</strong> {{ error }} </p>
+        {% endif %} -->
+        <br>
+        
         
         <!-- <form action="" method="post">
           <input type="text" placeholder="Search Using Tags" name="tag_text" value="{{
             request.form.tag_text }}">
           <input class="btn btn-default" type="submit" name = "button" value="tag_search">
         </form> -->
-        <form id="form1" action="" method="POST" enctype="multipart/form-data">
+        <form id="form3" action="" method="POST" enctype="multipart/form-data">
             <select class="category-select" id="categories-opt" name = "tags" >
               {% for tag in all_tags %}
               <option value="{{ tag }}">{{ tag }}</option>
               {% endfor %}
             </select>
-            <input class="btn btn-default" type="submit" name = "button" value="tag_search">
+            <input class="btn btn-default" type="submit" name = "button" value="Search Tag">
         </form>
 
     </div>

@@ -27,8 +27,14 @@ create table User_community(username varchar(30), community_id varchar(30), user
 create table Follower(username_1 varchar(30), username_2 varchar(30), primary key
 	(username_1, username_2), foreign key(username_1) references User(username),
 	foreign key(username_2) references User(username));
+
+create table Post_vote(post_id varchar(30), username varchar(30), vote int,
+	primary key(post_id,username), foreign key(post_id) references Post(post_id),
+	foreign key(username) references User(username));
 -- username_1 is follower of username_2
 -- post_id_1 is prerequisite of post_id_2
+
+ALTER TABLE `Post` MODIFY COLUMN `post_id` INT NOT NULL AUTO_INCREMENT ;
 
 INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('piyushrathipr', 'piyush', 'areyar', '19', 'piy@gmail.com');
 INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('fsociety00', 'shubham', 'say_hi', '20', 'fsoc@gmail.com');
