@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for, request
 # Route for handling the login page logic
 app = Flask(__name__)
 
-import database_connect as _database
+import login_signup as _database
 cur_user = -1
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -89,10 +89,11 @@ def myfeeds(username):
 	return render_template('feed.html', all_feeds = feed_content)
 
 
-@app.route('/bookmark/<feed_number>', methods = ['GET', 'POST'])
-def bookmark(feed_number):
+@app.route('/bookmark/<feed_content>/<feed_id>', methods = ['GET', 'POST'])
+def bookmark(feed_content, feed_id):
 	# add_to_bookmarks(feed_number, username)
-	return "Feed Number %s, bookmarked" %feed_number
+	# return "Feed Number %s, bookmarked" 
+	return render_template('feed.html', all_feeds = feed_content)
 
 @app.route('/post', methods = ['GET', 'POST'])
 def post():
@@ -107,3 +108,9 @@ def post():
 		# post_to_database()
 		return "Your Post Submitted"
 	return render_template("post.html")
+
+
+def addBookmark(x):
+    print("Hello")
+    print(x)
+    return False

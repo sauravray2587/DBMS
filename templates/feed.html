@@ -30,8 +30,11 @@
                     </div>
 
                     <div class="bookmark">
-                       <p><a href=" {{ url_for('bookmark', feed_number = feed['id'] ) }}"> Bookmark this feed </a></p>
+                       <p><a href=" {{ url_for('bookmark', feed_content = all_feeds, feed_id = feed['id'] ) }}"> Bookmark this feed </a></p>
                     </div>
+                    <!-- <form>
+                        <button class='btn btn-default' id = 'test' >Test</button>
+                    </form> -->
 
                 </div>
             {% endfor %}
@@ -66,3 +69,26 @@
 
     </body>
 </html>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+        $(function() {
+          $('#test').bind('click', function() {
+            $.getJSON('/background_process_test',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+        });
+</script>
+
+
+<!-- //button
+<div class='container'>
+    <h3>Test</h3>
+        <form>
+            <a href=# id=test><button class='btn btn-default'>Test</button></a>
+        </form>
+
+</div> -->
