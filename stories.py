@@ -15,6 +15,15 @@ cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 
+def get_rating(post_id):
+
+	query = "select count(*) from Post_vote group by %s"
+	cursor.execute(query, (post_id,))
+
+	for (count, ) in cursor:
+		return count
+
+
 def user_post(username, content, rating = 0, tags = [], community_id = None):
 	community_id = community_id.replace(" ", "")
 	if len(community_id)==0:
@@ -66,7 +75,7 @@ def get_posts(cursor, cur_user):
 		temp_dict['post_id'] = post_id
 		temp_dict['username'] = username
 		temp_dict['content'] = content
-		temp_dict['rating'] = rating
+		temp_dict['rating'] = get_rating(post_id)
 		temp_dict['community_id'] = community_id
 		temp_dict['post_time'] = post_time
 		temp_dict['tags'] = []
@@ -96,6 +105,15 @@ def get_posts(cursor, cur_user):
 			temp_dict['follows'] = 1
 
 
+		query = ("SELECT * from Post_vote where post_id = %s and username = %s")
+		cursor1.execute(query, (post_id, cur_user))
+
+		if cursor1._rowcount == 0:
+			temp_dict['upvote'] = 0
+		else:
+			temp_dict['upvote'] = 1
+
+
 		result_list.append(temp_dict)
 
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
@@ -118,4 +136,4 @@ def search_username(username, cur_user):
 
 if __name__ == '__main__':
 	# get_posts('34' ,'piyushrathipr', 'Uber code', 2.2, tags = ['DL', 'Full Stack'])
-	print(search_username('piyushrathipr', 'prashiksah'))
+	print(search_username("fsociety00", 'piyushrathipr'))
