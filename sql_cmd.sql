@@ -36,3 +36,8 @@ INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) 
 INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('1', 'fsociety00', 'dsu', '2100', '0');
 INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('2', 'piyushrathipr', 'storing segment tree history', '1900', '0');
 INSERT INTO `Follower` (`username_1`, `username_2`) VALUES ('piyushrathipr', 'fsociety00');
+
+INSERT INTO `Tags` (`tag_id`) VALUES ('dp');
+INSERT INTO `Tags` (`tag_id`) VALUES ('greedy');
+INSERT INTO `Post_tags` (`post_id`, `tag_id`) VALUES ('1', 'greedy');
+INSERT INTO `Post_tags` (`post_id`, `tag_id`) VALUES ('2', 'greedy');

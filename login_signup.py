@@ -1,7 +1,7 @@
 import mysql.connector
 import os
 
-if (os.getlogin()=='saurav'):
+if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
 else:
     pw = 'qw'
@@ -26,6 +26,8 @@ def check_login(username, password):
     query = ("SELECT password FROM User"
              " WHERE username = %s ")
     cursor.execute(query, (username,))
+
+ 
     print("size, " ,cursor._rowcount)
     if cursor._rowcount==0:
         print("User doesn't exist")

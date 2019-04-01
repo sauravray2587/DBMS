@@ -1,16 +1,21 @@
 import mysql.connector
 from stories import search_posts
 import operator
+import os
 
-if (os.getlogin()=='saurav'):
+if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
 else:
     pw = 'qw'
 
+dbase = 'web'
+
 cnx = mysql.connector.connect(user='root', password=pw,
-								  host='127.0.0.1',
-								  database='web')
+                                  host='127.0.0.1',
+                                  database=dbase)
+
 cursor = cnx.cursor(buffered=True)
+
 
 def get_feed(username):
 
@@ -28,6 +33,7 @@ def get_feed(username):
 	for key,value in  sorted(feed_dict.items(),key = lambda x: x[1]["post_time"],reverse=True):
 		feed[key] = value
 	return feed
+
 
 if __name__=="__main__":
 	print(get_feed("piyushrathipr"))
