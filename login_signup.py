@@ -1,8 +1,16 @@
 import mysql.connector
+import os
 
-cnx = mysql.connector.connect(user='root', password='qw',
+if (os.getlogin()=='saurav'):
+    pw = 'qwerty@123'
+else:
+    pw = 'qw'
+
+dbase = 'web'
+
+cnx = mysql.connector.connect(user='root', password=pw,
                                   host='127.0.0.1',
-                                  database='web')
+                                  database=dbase)
 cursor = cnx.cursor(buffered=True)
 
 
