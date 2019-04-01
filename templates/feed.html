@@ -1,38 +1,69 @@
 <html>
     <head>
     <title>Your Newsfeed, Enjoy</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta content="Legal Assistant, Legal Query, Cases, Acts, Legal Help" name="keywords"/>
-    <meta content="Open Soft" name="author"/>
     <link href="../static/css/style.css" rel="stylesheet">
-
 
     <script src="../static/js/script.js"></script>
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <!-- For fa fa-angle-down -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-
-
-    <link href="../static/img/logo.png" rel="shortcut icon" type="image/png"/>
-
     <script src="../static/js/main.js"></script>
+    <style>
+      h2{
+        display:inline;
+      }
+    </style>
 
     </head>
     <body>
 
-    <div class="main">
+    <div class="top-portion" align = "left">
+        <h2>{{username}}</h2>
+        <br>
+        <form action="" method="post">
+           <div style="text-align: right;" >
+          <input type="text" placeholder="Search for a User or Community" name="search_text" value="{{
+            request.form.search_text }}">
+          <input  class="btn btn-default" type="submit" name = "button" value="search_user">
+          </div>
+        </form>
+
+        {% if error %}
+          <p class="error"><strong>Error:</strong> {{ error }} </p>
+        {% endif %}
+        <br>
+        
+        <form action="" method="post">
+          <input class="btn btn-default" type="submit" name = "button" value="My Profile">
+        </form>
+
+        <br>
+        
+        <!-- <form action="" method="post">
+          <input type="text" placeholder="Search Using Tags" name="tag_text" value="{{
+            request.form.tag_text }}">
+          <input class="btn btn-default" type="submit" name = "button" value="tag_search">
+        </form> -->
+        <form id="form1" action="" method="POST" enctype="multipart/form-data">
+            <select class="category-select" id="categories-opt"  name = "tags">
+              {% for tag in all_tags %}
+              <option value="{{ tag }}">{{ tag }}</option>
+              {% endfor %}
+            </select>
+            <input class="btn btn-default" type="submit" name = "button" value="tag_search">
+        </form>
+
+    </div>
+
+    <div class="main1" align = "center">
         <div class="post">
             <p><a href=" {{ url_for('post') }}"> Post a feed </a></p>
         </div>
@@ -42,15 +73,16 @@
 
 
                     <div class="heading">
-                        <p> {{ feed['username'] }} </a></p>
+                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['date'] }} </a></p>
+                        <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                     </div>
-                    <div class="info">
+                    <!-- <div class="info" align = "center">
                         <ul>
-                            <li class="date"><strong>Date</strong> : {{ feed['date'] }} </li>
-                            <li class="tags"><strong>Tags</strong> : {{ feed['tags']}}</li>
+                            <p class="date"><strong>Date</strong> : {{ feed['date'] }} </p>
+                            <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                         </ul>
                     </div>
-
+ -->
                     <div class="content">
                         <p>{{ feed['content'] }}</p>
                     </div>
@@ -67,64 +99,7 @@
         </div>
     </div>
 
-    <div class="container">
-      <h1>Search</h1>
-      <br>
-      <form action="" method="post">
-        <input type="text" placeholder="Search for a User or Community" name="search_text" value="{{
-          request.form.search_text }}">
-        <input class="btn btn-default" type="submit" name = "button" value="search_user">
-      </form>
-      {% if error %}
-        <p class="error"><strong>Error:</strong> {{ error }}
-      {% endif %}
-      <br>
-      
-      <form action="" method="post">
-        <input class="btn btn-default" type="submit" name = "button" value="user_post">
-      </form>
-
-      <br>
-      
-      <form action="" method="post">
-        <input type="text" placeholder="Search Using Tags" name="tag_text" value="{{
-          request.form.tag_text }}">
-        <input class="btn btn-default" type="submit" name = "button" value="tag_search">
-      </form>
-
-      <div class="category">
-          <select class="category-select" id="categories-opt" multiple="multiple" name="categories[]">
-              <option val="1">alpha</option>
-              <option val="2">beta</option>
-          </select>
-          <p>Categories</p>
-          <button type="submit" id="search_button" class="btn btn-default" value="search">Search</button>
-      </div>
-
-    </div>
+    
 
     </body>
 </html>
-<!-- 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script type=text/javascript>
-        $(function() {
-          $('#test').bind('click', function() {
-            $.getJSON('/background_process_test',
-                function(data) {
-              //do nothing
-            });
-            return false;
-          });
-        });
-</script> -->
-
-
-<!-- //button
-<div class='container'>
-    <h3>Test</h3>
-        <form>
-            <a href=# id=test><button class='btn btn-default'>Test</button></a>
-        </form>
-
-</div> -->

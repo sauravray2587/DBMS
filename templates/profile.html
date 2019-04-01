@@ -3,10 +3,26 @@
     <title>Profile</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <script src="../static/js/script.js"></script>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="../static/js/main.js"></script>
+
     </head>
     <body>
 
-    <div class="main">
+    <div class="main" align="center">
         <div class="follow">
             <form action="" method="post">
                 {% if follow_status %}
@@ -16,21 +32,22 @@
                 {% endif %}
             </form>
         </div>
-        <div class="result-list">
+        <div class="result-list" align="center">
             {% for feed in all_feeds %}
                 <div class="result">
 
 
                     <div class="heading">
-                        <p> {{ feed['username'] }} </a></p>
+                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['date'] }} </a></p>
+                        <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                     </div>
-                    <div class="info">
+                    <!-- <div class="info" align = "center">
                         <ul>
-                            <li class="date"><strong>Date</strong> : {{ feed['date'] }} </li>
-                            <li class="tags"><strong>Tags</strong> : {{ feed['tags']}}</li>
+                            <p class="date"><strong>Date</strong> : {{ feed['date'] }} </p>
+                            <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                         </ul>
                     </div>
-
+ -->
                     <div class="content">
                         <p>{{ feed['content'] }}</p>
                     </div>
@@ -38,6 +55,9 @@
                     <form action="" method="post">
                       <input class="btn btn-default" type="submit" name = "button" value="bookmark">
                     </form>
+                    <!-- <form>
+                        <button class='btn btn-default' id = 'test' >Test</button>
+                    </form> -->
 
                 </div>
             {% endfor %}
