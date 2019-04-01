@@ -26,7 +26,7 @@ def check_login(username, password):
     query = ("SELECT password FROM User"
              " WHERE username = %s ")
     cursor.execute(query, (username,))
-    if cursor.arraysize==0:
+    if cursor.arrayx`size==0:
         print("User doesn't exist")
         return False
 
