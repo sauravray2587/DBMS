@@ -26,12 +26,18 @@ def check_login(username, password):
     query = ("SELECT password FROM User"
              " WHERE username = %s ")
     cursor.execute(query, (username,))
+<<<<<<< HEAD
     if cursor.arrayx`size==0:
+=======
+    print("size, " ,cursor.arraysize)
+    if cursor.arraysize==0:
+>>>>>>> 7effd52671b1448d322a4953b5aa03508485e791
         print("User doesn't exist")
         return False
 
     for (saved_password,) in cursor:
         if password == saved_password:
+            print(password)
             return True
         else:
             print("Password not matched password = ", password, "actual password = ",saved_password)
