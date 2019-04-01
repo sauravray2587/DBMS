@@ -27,6 +27,7 @@ def check_login(username, password):
              " WHERE username = %s ")
     cursor.execute(query, (username,))
 
+ 
     print("size, " ,cursor._rowcount)
     if cursor._rowcount==0:
         print("User doesn't exist")

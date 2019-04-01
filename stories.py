@@ -1,19 +1,34 @@
 import mysql.connector
+import operator
+import os
 
-cnx = mysql.connector.connect(user='root', password='qw',
+if (os.environ['USER']=='saurav'):
+    pw = 'qwerty@123'
+else:
+    pw = 'qw'
+
+
+cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
 								  database='web')
 cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 
-def user_post(post_id, username, content, rating = 0, tags = [], community_id = None):
+def user_post(username, content, rating = 0, tags = [], community_id = None):
+
+	query = ("select post_id from Post order by post_id desc limit 0, 1")
+	cursor.execute(query, ())
+
+	for (post_id, ) in cursor:
+		id_here = int(post_id) + 1
+
 	if community_id != None:
 		query = ("insert into Post VALUES(%s, %s, %s, %s, %s, NULL )")
-		cursor.execute(query, (post_id, username, content, rating, community_id))
+		cursor.execute(query, (id_here, username, content, rating, community_id))
 	else:
 		query = ("insert into Post VALUES(%s, %s, %s, %s, NULL, NULL)")
-		cursor.execute(query, (post_id, username, content, rating))
+		cursor.execute(query, (id_here, username, content, rating))
 	cnx.commit()
 
 
@@ -36,11 +51,15 @@ def user_post(post_id, username, content, rating = 0, tags = [], community_id = 
 		cnx.commit()
 
 
-def get_posts(cursor):
-	result_dict = {}
 
+
+def get_posts(cursor, cur_user):
+	result_list = []
+	# print(cursor._rowcount)
 	for (post_id, username, content, rating, community_id, post_time) in cursor:
+		
 		temp_dict = {}
+		temp_dict['post_id'] = post_id
 		temp_dict['username'] = username
 		temp_dict['content'] = content
 		temp_dict['rating'] = rating
@@ -54,19 +73,66 @@ def get_posts(cursor):
 		for (tag, ) in cursor1:
 			temp_dict['tags'].append(tag)
 
-		result_dict[post_id] = temp_dict
 
-	return result_dict
+		query = ("SELECT * from Bookmark where username = %s and post_id = %s")
+		cursor1.execute(query, (cur_user, post_id))
 
-def search_posts(username):
+		if cursor1._rowcount == 0:
+			temp_dict['bookmark'] = 0
+		else:
+			temp_dict['bookmark'] = 1
+
+
+		query = ("SELECT * from Follower where username_1 = %s and username_2 = %s")
+		cursor1.execute(query, (cur_user, username))
+
+		if cursor1._rowcount == 0:
+			temp_dict['follows'] = 0
+		else:
+			temp_dict['follows'] = 1
+
+
+		result_list.append(temp_dict)
+
+	result_list.sort(key = lambda x: x['post_time'], reverse = True)
+
+	return result_list
+	# unsorted_dict = {}
+
+	# i = 0
+	# for it in result_list:
+	# 	it = it[0]
+	# 	unsorted_dict[it] = result_list[i]["post_time"]
+	# 	i++
+	# # print(unsorted_dict)
+	# sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
+
+	# sorted_final_list = {}
+
+	# count = 0
+	# for it in sorted_dict:
+	# 	if count >= 10:
+	# 		break
+	# 	sorted_final_list[it[0]] = result_list[it[0]]
+
+	# 	count += 1
+
+	# return sorted_final_list
+
+
+
+def search_username(username, cur_user):
 
 	query = ("SELECT post_id, username, content, rating, community_id, post_time FROM Post"
 			 " WHERE username = %s ")
 
 	cursor.execute(query, (username,))
-
-	return get_posts(cursor) 
+	
+	x = get_posts(cursor, cur_user)
+	
+	return x
 
 
 if __name__ == '__main__':
-	user_post('34' ,'piyushrathipr', 'Uber code', 2.2, tags = ['DL', 'Full Stack'])
+	# get_posts('34' ,'piyushrathipr', 'Uber code', 2.2, tags = ['DL', 'Full Stack'])
+	print(search_username('piyushrathipr', 'prashiksah'))
