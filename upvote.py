@@ -16,6 +16,12 @@ cursor = cnx.cursor(buffered=True)
 
 def upvote(post_id, username):
 
+	query = ("SELECT * from Post_vote where username = %s and post_id = %s")
+	cursor.execute(query, (username, post_id))
+
+	if cursor._rowcount > 0:
+		return
+
 	query = ("insert into Post_vote values(%s, %s)")
 	cursor.execute(query, (post_id, username))
 
@@ -31,4 +37,4 @@ def downvote(post_id, username):
 
 
 if __name__ == '__main__':
-	downvote(32, 'piyushrathipr')
+	upvote(32, 'piyushrathipr')
