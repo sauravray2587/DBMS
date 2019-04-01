@@ -1,23 +1,24 @@
 from flask import Flask, render_template, redirect, url_for, request
-
+# from feed import *
 # Route for handling the login page logic
 app = Flask(__name__)
 
 import login_signup as _database
 cur_user = -1
 
-@app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	global cur_user
 	error = None
 	if request.method == 'POST':
+		# If login request
 		if (request.form['submit-button'] == 'login'):
 			print(request.form['username'], request.form['password'] )
 			if _database.check_login(request.form['username'], request.form['password']) != True:
 				error = 'Invalid Credentials. Please try again.'			
 			else:
 				cur_user = request.form['username']
+				print(cur_user)
 				return redirect(url_for('home', username = request.form['username']))
 		else:
 			print(2)				
@@ -26,11 +27,12 @@ def login():
 			return redirect(url_for('home', username = request.form['username']))
 	return render_template('index.html', error=error)
 
-@app.route('/home/<username>', methods = ['GET', 'POST'])
+
+@app.route('/home/<username>', methods=['GET', 'POST'])
 def home(username):
 	# return 'User %s' % username
 	# Put Different Tabs for the different features
-	feed_content = get_feed(username)
+	feed_content = get_feed1(username)
 
 	if request.method == 'POST':
 		if request.form['button']=="search_user":
@@ -51,8 +53,10 @@ def home(username):
 
 			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags())
 			# return "Tags are : %s" %request.form['tags']
-		elif request.form['button']=="bookmark":
+		else:
 			# .... insert a function to bookmark here
+			feed_id = request.form['button']
+			print(feed_id)
 			return render_template('feed.html', username = cur_user,  all_feeds = feed_content)
 
 
@@ -60,7 +64,7 @@ def home(username):
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
-	feed_content = get_feed(username)
+	feed_content = get_feed_user1(username)
 	is_following = True
 	if request.method == 'POST':
 		if request.form['button'] == 'bookmark':
@@ -112,16 +116,36 @@ def post():
 		return "Your Post Submitted"
 	return render_template("post.html")
 
-def get_feed(username):
+@app.route('/bookmark/<bookmark_id>', methods = ['GET', 'POST'])
+def bookmark(bookmark_id):
+	# .... a function here
+	print("bookmarked, ", bookmark_id)
+	return redirect(url_for('home', username = cur_user))
+
+def get_feed1(username):
 	database_active = False
 	if database_active == True:
-		feed_content = get_my_feeds(username)
+		feed_content = get_feed(username)
 	else:
 		temp = {}
 		temp['username'] = 'random_user1'
 		temp['date'] = '20/03/2019'
 		temp['tags'] = ['ab', 'cd']
 		temp['content'] = ['Hello Friends']
+		temp['id'] = 2
+		feed_content = [temp]
+	return feed_content
+
+def get_feed_user1(username):
+	database_active = False
+	if database_active == True:
+		feed_content = get_feed_user(username)
+	else:
+		temp = {}
+		temp['username'] = 'random_user1'
+		temp['date'] = '20/03/2019'
+		temp['tags'] = ['ab', 'cd']
+		temp['content'] = ['Hello Friends, hahaha']
 		temp['id'] = 1
 		feed_content = [temp]
 	return feed_content

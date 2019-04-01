@@ -1,5 +1,5 @@
 import mysql.connector
-from stories import search_posts
+from stories import search_username_posts
 import operator
 import os
 
@@ -17,7 +17,7 @@ cnx = mysql.connector.connect(user='root', password=pw,
 cursor = cnx.cursor(buffered=True)
 
 
-def get_feed(username):
+def get_feed(username, cur_user):
 
 	query = ("SELECT username_2 FROM Follower"
 			 " WHERE username_1 = %s ")
@@ -25,7 +25,7 @@ def get_feed(username):
 	feed_dict = {}
 
 	for (following,) in cursor:
-		posts = search_posts(following)
+		posts = search_username_posts(following, cur_user)
 		for post_id in posts:
 			feed_dict[post_id] = posts[post_id]
 

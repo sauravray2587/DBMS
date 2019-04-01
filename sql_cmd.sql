@@ -34,7 +34,7 @@ INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('fso
 INSERT INTO `Community` (`community_id`, `community_name`, `member_count`, `post_count`) VALUES ('0', 'codeforces', '1', '0');
 INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('0', 'fsociety00', 'segment tree', '2100', '0');
 INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('1', 'fsociety00', 'dsu', '2100', '0');
-INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('2', 'piyushrathipr', 'storing segment tree history', '1900', '0');
+INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('2', 'piyushrathipr', 'storing segment tree history', 5, '0');
 INSERT INTO `Follower` (`username_1`, `username_2`) VALUES ('piyushrathipr', 'fsociety00');
 
 INSERT INTO `Tags` (`tag_id`) VALUES ('dp');

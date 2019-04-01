@@ -1,7 +1,13 @@
 import mysql.connector
 import operator
+import os
 
-cnx = mysql.connector.connect(user='root', password='qw',
+if (os.environ['USER']=='saurav'):
+    pw = 'qwerty@123'
+else:
+    pw = 'qw'
+print(pw)
+cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
 								  database='web')
 cursor = cnx.cursor(buffered=True)
@@ -107,7 +113,7 @@ def get_posts(cursor, cur_user):
 
 
 
-def search_username(username, cur_user):
+def search_username_posts(username, cur_user):
 
 	query = ("SELECT post_id, username, content, rating, community_id, post_time FROM Post"
 			 " WHERE username = %s ")
