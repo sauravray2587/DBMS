@@ -32,5 +32,5 @@ def get_feed(username):
 	return feed_list.sort(key = lambda x: x['post_time'], reverse = True)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
 	print(get_feed("piyushrathipr"))
