@@ -3,7 +3,7 @@ from stories import search_posts
 import operator
 import os
 
-if (os.getlogin()=='saurav'):
+if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
 else:
     pw = 'qw'
