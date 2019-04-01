@@ -36,7 +36,7 @@ def user_post(post_id, username, content, rating = 0, tags = [], community_id = 
 		cnx.commit()
 
 
-def get_posts(cursor):
+def get_posts(cursor, cur_user):
 	result_dict = {}
 
 	for (post_id, username, content, rating, community_id, post_time) in cursor:
@@ -54,19 +54,38 @@ def get_posts(cursor):
 		for (tag, ) in cursor1:
 			temp_dict['tags'].append(tag)
 
+
+		query = ("SELECT * from Bookmark where username = %s and post_id = %s")
+		cursor.execute(query, (cur_user, post_id))
+
+		if cursor._rowcount == 0:
+			temp_dict['bookmark'] = 0
+		else:
+			temp_dict['bookmark'] = 1
+
+
+		query = ("SELECT * from Follower where username_1 = %s and username_2 = %s")
+		cursor.execute(query, (cur_user, username))
+
+		if cursor._rowcount == 0:
+			temp_dict['follows'] = 0
+		else:
+			temp_dict['follows'] = 1
+
+
 		result_dict[post_id] = temp_dict
 
 	return result_dict
 
-def search_posts(username):
+def search_username(username, cur_user):
 
 	query = ("SELECT post_id, username, content, rating, community_id, post_time FROM Post"
 			 " WHERE username = %s ")
 
 	cursor.execute(query, (username,))
 
-	return get_posts(cursor) 
+	return get_posts(cursor, cur_user) 
 
 
 if __name__ == '__main__':
-	user_post('34' ,'piyushrathipr', 'Uber code', 2.2, tags = ['DL', 'Full Stack'])
+	get_posts('34' ,'piyushrathipr', 'Uber code', 2.2, tags = ['DL', 'Full Stack'])
