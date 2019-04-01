@@ -35,5 +35,5 @@ def get_feed(username ):
 	return feed_list
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
 	print(get_feed("piyushrathipr"))

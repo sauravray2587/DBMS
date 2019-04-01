@@ -101,27 +101,6 @@ def get_posts(cursor, cur_user):
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
 	print("result, ", result_list)
 	return result_list
-	# unsorted_dict = {}
-
-	# i = 0
-	# for it in result_list:
-	# 	it = it[0]
-	# 	unsorted_dict[it] = result_list[i]["post_time"]
-	# 	i++
-	# # print(unsorted_dict)
-	# sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
-
-	# sorted_final_list = {}
-
-	# count = 0
-	# for it in sorted_dict:
-	# 	if count >= 10:
-	# 		break
-	# 	sorted_final_list[it[0]] = result_list[it[0]]
-
-	# 	count += 1
-
-	# return sorted_final_list
 
 
 
