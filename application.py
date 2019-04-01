@@ -107,3 +107,8 @@ def post():
 		# post_to_database()
 		return "Your Post Submitted"
 	return render_template("post.html")
+
+def addBookmark(x):
+    print("Hello")
+    print(x)
+    return False

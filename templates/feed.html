@@ -29,9 +29,12 @@
                         <p>{{ feed['content'] }}</p>
                     </div>
 
-                    <div class="bookmark">
+                    <!-- <div class="bookmark">
                        <p><a href=" {{ url_for('bookmark', feed_number = feed['id'] ) }}"> Bookmark this feed </a></p>
-                    </div>
+                    </div> -->
+                    <form method="POST">
+                        <button name="bookmark" type="button" onclick="addBookmark(1)">Bookmark this</button>
+                    </form>
 
                 </div>
             {% endfor %}
