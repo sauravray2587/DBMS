@@ -34,5 +34,13 @@ def search_community(community_id, cur_user):
 	return get_posts(cursor, cur_user)
 
 
+def add_user(community_id,cur_user):
+
+	query = "INSERT INTO User_community VALUES(%s, %s, %s)"
+	cursor.execute(query,(community_id,cur_user,0))
+	cnx.commit()
+
+
 if __name__ == '__main__':
-	print(search_community('0'))
+	# print(search_community('0'))
+	add_user("piyushrathipr","0")

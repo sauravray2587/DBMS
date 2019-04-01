@@ -28,6 +28,7 @@ create table Follower(username_1 varchar(30), username_2 varchar(30), primary ke
 	(username_1, username_2), foreign key(username_1) references User(username),
 	foreign key(username_2) references User(username));
 -- username_1 is follower of username_2
+-- post_id_1 is prerequisite of post_id_2
 
 INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('piyushrathipr', 'piyush', 'areyar', '19', 'piy@gmail.com');
 INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('fsociety00', 'shubham', 'say_hi', '20', 'fsoc@gmail.com');
@@ -55,10 +56,6 @@ INSERT INTO `web`.`User_community` (`username`, `community_id`, `user_rating`) V
 
 
 
-CREATE DEFINER=`root`@`localhost` TRIGGER `web`.`User_community_AFTER_INSERT` AFTER INSERT ON `User_community` FOR EACH ROW
-BEGIN
-UPDATE `web`.`Community` SET `Community`.member_count = `Community`.member_count + 1 WHERE `Community`.community_id = NEW.community_id;
-END
 
 
 
