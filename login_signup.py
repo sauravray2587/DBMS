@@ -30,7 +30,9 @@ def check_login(username, password):
             return False
 
 
+
+
 if __name__=="__main__":
     # sign_up("fsociety00","Shubham","say_hi", 21,"fsociety@gmail.com")
-    # print(check_login("fsociety00","say_hi"))
-    user_post("3" , "fsociety00", "high level content")
+    print(check_login("fsociety00","say_hi"))
+    # user_post("3" , "fsociety00", "high level content")

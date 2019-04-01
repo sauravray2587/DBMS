@@ -7,7 +7,7 @@ cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 
-def user_stories(post_id, username, content, rating, community_id, tags):
+def user_post(post_id, username, content, rating, community_id, tags):
 	query = ("insert into Post VALUES(%s, %s, %s, %s, %s)")
 	cursor.execute(query, (post_id, username, content, rating, community_id))
 
@@ -48,6 +48,7 @@ def search_posts(username):
 		result_dict[post_id] = temp_dict
 
 	return result_dict
+
 
 if __name__ == '__main__':
 	print(search_posts('fsociety00'))
