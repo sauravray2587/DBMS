@@ -21,7 +21,7 @@ def login():
 			else:
 				cur_user = request.form['username']
 				print(cur_user)
-				return redirect(url_for('home', username = request.form['username']))
+				return redirect(url_for('home', username = request.form['username']) )
 		else:
 			print(2)				
 			_database.sign_up(request.form['username'], request.form['name'], request.form['password'], request.form['age'], request.form['email'])
@@ -54,16 +54,16 @@ def home(username):
 			tag = request.form['tags']
 			feed_content = get_feed_given_tags(tag)
 
-			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags())
+			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags(), all_user = get_all_user(), all_comm = get_all_comm())
 			# return "Tags are : %s" %request.form['tags']
 		else:
 			# .... insert a function to bookmark here
 			feed_id = request.form['button']
 			print(feed_id)
-			return render_template('feed.html', username = cur_user,  all_feeds = feed_content)
+			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_user = get_all_user(), all_comm = get_all_comm())
 
 
-	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags())
+	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags(),all_user = get_all_user(), all_comm = get_all_comm())
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
@@ -119,14 +119,14 @@ def post():
 		username = cur_user
 		stories.user_post(username, content, 5, tags, comm)
 		# post_to_database()
-		return redirect(url_for('home', username = cur_user))
+		return redirect(url_for('home', username = cur_user ))
 	return render_template("post.html")
 
 @app.route('/bookmark/<bookmark_id>', methods = ['GET', 'POST'])
 def bookmark(bookmark_id):
 	# .... a function here
 	print("bookmarked, ", bookmark_id)
-	return redirect(url_for('home', username = cur_user))
+	return redirect(url_for('home', username = cur_user ))
 
 def get_feed1(username, cur_user):
 	database_active = True
@@ -150,7 +150,7 @@ def get_feed1(username, cur_user):
 def get_feed_user1(username):
 	database_active = True
 	if database_active == True:
-		feed_content = stories.search_username(username, cur_user)
+		feed_content = stories.search_username(user, cur_user)
 		print("feed len", len(feed_content))
 		for x in feed_content:
 			# print("post post 1: ", x)
@@ -173,3 +173,11 @@ def get_tags():
 	else:
 		all_tags = ['artifical intelligence', 'operating systems']
 	return all_tags
+
+# def get_all_user():
+# 	users = ['saurav', 'prashik', 'piyush', 'ritik']
+# 	return users
+
+# def get_all_comm():
+# 	users = ['saurav', 'prashik', 'piyush', 'ritik']
+# 	return users
