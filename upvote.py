@@ -14,22 +14,21 @@ cnx = mysql.connector.connect(user='root', password=pw,
 
 cursor = cnx.cursor(buffered=True)
 
+def upvote(post_id, username):
 
-def follow(username_1, username_2):
-
-	query = ("insert into Follower values(%s, %s)")
-	cursor.execute(query, (username_1, username_2))
+	query = ("insert into Post_vote values(%s, %s)")
+	cursor.execute(query, (post_id, username))
 
 	cnx.commit()
 
 
-def unfollow(username_1, username_2):
+def downvote(post_id, username):
 
-	query = ("delete from Follower where username_1 = %s and username_2 = %s")
-	cursor.execute(query, (username_1, username_2))
+	query = ("delete from Post_vote where post_id = %s and username = %s")
+	cursor.execute(query, (post_id, username))
 
 	cnx.commit()
 
 
 if __name__ == '__main__':
-	follow('piyushrathipr', 'fsociety00')
+	downvote(32, 'piyushrathipr')
