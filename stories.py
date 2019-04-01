@@ -16,13 +16,12 @@ cursor1 = cnx.cursor(buffered=True)
 
 
 def get_rating(post_id):
-
+	cursor2 = cnx.cursor(buffered=True)
 	query = "select count(*) from Post_vote group by %s"
-	cursor.execute(query, (post_id,))
+	cursor2.execute(query, (post_id,))
 
-	for (count, ) in cursor:
+	for (count, ) in cursor2:
 		return count
-
 
 def user_post(username, content, rating = 0, tags = [], community_id = None):
 	community_id = community_id.replace(" ", "")
@@ -68,9 +67,9 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 
 def get_posts(cursor, cur_user):
 	result_list = []
-	# print(cursor._rowcount)
+	# print("rows : " , cursor._rowcount)
 	for (post_id, username, content, rating, community_id, post_time) in cursor:
-		
+
 		temp_dict = {}
 		temp_dict['post_id'] = post_id
 		temp_dict['username'] = username
@@ -116,6 +115,7 @@ def get_posts(cursor, cur_user):
 
 		result_list.append(temp_dict)
 
+	print("result, ", result_list)
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
 	# print("result, ", result_list)
 	return result_list
@@ -130,7 +130,7 @@ def search_username(username, cur_user):
 	cursor.execute(query, (username,))
 	# print("row count, ", cursor._rowcount)
 	x = get_posts(cursor, cur_user)
-	# print("x, " , x)
+	print("x, " , x)
 	return x
 
 

@@ -28,6 +28,13 @@
       .real-selections {
             display: none;
         }
+      .striped-border {
+        border: 1px dashed #000;
+        width: 50%;
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
     </style>
 
     </head>
@@ -39,6 +46,10 @@
         <form action="" method="post">
           <input class="btn btn-default" type="submit" name = "button" value="My Profile">
         </form>
+
+        <form action="" method="post">
+          <input class="btn btn-default" type="submit" name = "button" value="Bookmarks">
+        </form>        
 
         <br>
         <div class = "category" >
@@ -119,15 +130,19 @@
                         <p>{{ feed['content'] }}</p>
                     </div>
 
-                    <!-- <form action="" method="post"> -->
-                      <a href = "{{ url_for('bookmark', bookmark_id= feed['post_id']) }}" > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+          
+
+                      <form action="" method="post">
+                        <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+                        <input type = "hidden" class="btn btn-default" type="submit" name = "button11" value="{{feed['post_id']}}">
+                      </form>
 
                       <a href = "{{ url_for('upvote', upvote_id= feed['post_id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="Upvote">
                     <!-- </form> -->
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>
                     </form> -->
-
+                    <hr class = "striped-border" >
                 </div>
             {% endfor %}
         </div>
