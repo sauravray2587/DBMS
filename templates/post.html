@@ -1,0 +1,27 @@
+<html>
+    <head>
+    <title>Post something</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    </head>
+    <body>
+
+    <div class="container">
+      <h1>Post</h1>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Your Post" name="user_post" value="{{
+          request.form.user_post }}">
+        <br>
+        <input type="text" placeholder="Tags" name="tags" value="{{
+          request.form.tags }}">
+        <br>
+        <input type="text" placeholder="pre_req" name="pre_req" value="{{
+          request.form.pre_req }}">
+        <br>
+        <input class="btn btn-default" type="submit" name = "button" value="post">
+      </form>
+    </div>
+
+    </body>
+</html>

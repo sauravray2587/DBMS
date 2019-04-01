@@ -17,7 +17,7 @@
           request.form.username }}">
          <input type="password" placeholder="Password" name="password" value="{{
           request.form.password }}">
-        <input class="btn btn-default" type="submit" value="Login">
+        <input class="btn btn-default" type="submit" name = "submit-button" value="login">
       </form>
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
@@ -41,6 +41,10 @@
           request.form.email }}">
         <input type="number" placeholder="Age" name="age" value="{{
           request.form.age }}">
+<<<<<<< HEAD
+        <input class="btn btn-default" type="submit" name = "submit-button" value="signup">
+      </form>
+=======
         <input class="btn btn-default" type="submit" value="Sign-Up">
 
       </form>
@@ -48,6 +52,7 @@
       {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
       {% endif %}
+>>>>>>> 457729ca610d7f656b67963c791a7401cacf2f24
     </div>
 
 
