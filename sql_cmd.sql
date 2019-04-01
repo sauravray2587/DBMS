@@ -3,7 +3,7 @@ create table User(username varchar(30) , name varchar(30),password varchar(32),
 create table Community(community_id varchar(30), community_name varchar(30),member_count int, 
 	post_count int, primary key(community_id));
 create table Post(post_id varchar(30), username varchar(30), content varchar(500), 
-	rating float(6,2), community_id varchar(30), post_time TIMESTAMP default CURRENT_TIME,primary key(post_id), 
+	rating float(6,2), community_id varchar(30), post_time TIMESTAMP default CURRENT_TIMESTAMP,primary key(post_id), 
 	foreign key(username) references User(username), foreign key(community_id) 
 	references Community(community_id));
 create table Bookmark(username varchar(30),post_id varchar(30),

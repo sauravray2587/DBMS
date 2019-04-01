@@ -1,4 +1,5 @@
 import mysql.connector
+import operator
 
 cnx = mysql.connector.connect(user='root', password='qw',
 								  host='127.0.0.1',
@@ -16,7 +17,7 @@ def create_community(community_id, community_name, no_of_members, no_of_posts):
 
 def search_community(community_id):
 
-	query = ("SELECT post_id, username, content, rating, post_time FROM User_community, Post"
+	query = ("SELECT post_id, Post.username, content, rating, post_time FROM User_community, Post"
 			 " WHERE Post.username = User_community.username and User_community.community_id = %s")
 
 	cursor.execute(query, (community_id,))
@@ -50,3 +51,8 @@ def search_community(community_id):
 		sorted_final_dict[it[0]] = result_dict[it[0]]
 
 		count += 1
+
+	return sorted_final_dict
+
+if __name__ == '__main__':
+	search_community('noo')
