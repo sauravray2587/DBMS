@@ -17,7 +17,7 @@ cnx = mysql.connector.connect(user='root', password=pw,
 cursor = cnx.cursor(buffered=True)
 
 
-def get_feed(username):
+def get_feed(username ):
 
 	query = ("SELECT username_2 FROM Follower"
 			 " WHERE username_1 = %s ")
@@ -26,10 +26,13 @@ def get_feed(username):
 	feed_list = []
 
 	for (following,) in cursor:
-		posts = search_username(following)
-		feed_list.extend(posts)
-
-	return feed_list.sort(key = lambda x: x['post_time'], reverse = True)
+		posts = search_username(following, username)
+		for post in posts:
+			print("post :", post)
+			feed_list.append(post)
+	# x = feed_list.sort(key = lambda z: (print(z), z['post_time']), reverse = True)
+	# print("x ::", x)
+	return feed_list
 
 
 if __name__ == "__main__":

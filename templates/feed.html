@@ -29,7 +29,7 @@
         <h2>{{username}}</h2>
         <br>
         <form action="" method="post">
-           <div style="text-align: right;" >
+           <div style="text-align: right; " >
           <input type="text" placeholder="Search for a User or Community" name="search_text" value="{{
             request.form.search_text }}">
           <input  class="btn btn-default" type="submit" name = "button" value="search_user">
@@ -53,7 +53,7 @@
           <input class="btn btn-default" type="submit" name = "button" value="tag_search">
         </form> -->
         <form id="form1" action="" method="POST" enctype="multipart/form-data">
-            <select class="category-select" id="categories-opt"  name = "tags">
+            <select class="category-select" id="categories-opt" name = "tags" >
               {% for tag in all_tags %}
               <option value="{{ tag }}">{{ tag }}</option>
               {% endfor %}
@@ -67,29 +67,31 @@
         <div class="post">
             <p><a href=" {{ url_for('post') }}"> Post a feed </a></p>
         </div>
+        {% if all_feeds|length > 0 %}
         <div class="result-list">
             {% for feed in all_feeds %}
                 <div class="result">
 
 
                     <div class="heading">
-                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['date'] }} </a></p>
+                        <p class="username"><strong>Username</strong> : {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </a></p>
                         <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
+                        <p class="ratings"> <strong> Rating : {{ feed['rating'] }} </strong></p>
                     </div>
                     <!-- <div class="info" align = "center">
                         <ul>
                             <p class="date"><strong>Date</strong> : {{ feed['date'] }} </p>
                             <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                         </ul>
-                    </div>
- -->
+                    </div> -->
+
                     <div class="content">
                         <p>{{ feed['content'] }}</p>
                     </div>
 
-                    <form action="" method="post">
-                      <input class="btn btn-default" type="submit" name = "button" value="bookmark">
-                    </form>
+                    <!-- <form action="" method="post"> -->
+                      <a href = "{{ url_for('bookmark', bookmark_id= feed['id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+                    <!-- </form> -->
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>
                     </form> -->
@@ -97,6 +99,7 @@
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 
     

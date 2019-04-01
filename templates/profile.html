@@ -23,6 +23,7 @@
     <body>
 
     <div class="main" align="center">
+        {% if display_follow %}
         <div class="follow">
             <form action="" method="post">
                 {% if follow_status %}
@@ -32,6 +33,7 @@
                 {% endif %}
             </form>
         </div>
+        {% endif %}
         <div class="result-list" align="center">
             {% for feed in all_feeds %}
                 <div class="result">
