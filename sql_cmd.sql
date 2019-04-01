@@ -3,7 +3,7 @@ create table User(username varchar(30) , name varchar(30),password varchar(32),
 create table Community(community_id varchar(30), community_name varchar(30),member_count int, 
 	post_count int, primary key(community_id));
 create table Post(post_id varchar(30), username varchar(30), content varchar(500), 
-	rating float(6,2), community_id varchar(30), post_date date,primary key(post_id), 
+	rating float(6,2), community_id varchar(30), post_time TIMESTAMP default CURRENT_TIMESTAMP,primary key(post_id), 
 	foreign key(username) references User(username), foreign key(community_id) 
 	references Community(community_id));
 create table Bookmark(username varchar(30),post_id varchar(30),
@@ -28,3 +28,11 @@ create table Follower(username_1 varchar(30), username_2 varchar(30), primary ke
 	(username_1, username_2), foreign key(username_1) references User(username),
 	foreign key(username_2) references User(username));
 -- username_1 is follower of username_2
+
+INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('piyushrathipr', 'piyush', 'areyar', '19', 'piy@gmail.com');
+INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('fsociety00', 'shubham', 'say_hi', '20', 'fsoc@gmail.com');
+INSERT INTO `Community` (`community_id`, `community_name`, `member_count`, `post_count`) VALUES ('0', 'codeforces', '1', '0');
+INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('0', 'fsociety00', 'segment tree', '2100', '0');
+INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('1', 'fsociety00', 'dsu', '2100', '0');
+INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES ('2', 'piyushrathipr', 'storing segment tree history', '1900', '0');
+INSERT INTO `Follower` (`username_1`, `username_2`) VALUES ('piyushrathipr', 'fsociety00');
