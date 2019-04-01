@@ -16,6 +16,12 @@ cursor = cnx.cursor(buffered=True)
 
 def bookmark(username, post_id):
 
+	query = ("SELECT * from Bookmark where username = %s and post_id = %s")
+	cursor.execute(query, (username, post_id))
+
+	if cursor._rowcount > 0:
+		return
+
 	query = ("INSERT INTO Bookmark VALUES( %s, %s)")
 	cursor.execute(query, (username, post_id))
 	cnx.commit()
@@ -28,4 +34,4 @@ def unbookmark(username, post_id):
 	cnx.commit()
 
 if __name__ == '__main__':
-	unbookmark('piyushrathipr', 32)
+	bookmark('piyushrathipr', 32)
