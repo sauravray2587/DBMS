@@ -6,6 +6,7 @@ app = Flask(__name__)
 import login_signup as _database
 cur_user = -1
 
+@app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	global cur_user
@@ -39,30 +40,42 @@ def home(username):
 				# Where to display the user?
 				# search_for_user
 				return redirect(url_for('profile', username = request.form['search_text']))
-		elif request.form['button']=="user_post":
+		elif request.form['button']=="My Profile":
 			return redirect(url_for('myfeeds', username = cur_user))
 		elif request.form['button']=="tag_search":
-			return "Tags are : %s" %request.form['tags']
+			# tags = request.form['categories[]']
+			# print(tags)
+			# print("Hello")
+			tag = request.form['tags']
+			feed_content = get_feed_given_tags(tag)
+
+			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags())
+			# return "Tags are : %s" %request.form['tags']
 		elif request.form['button']=="bookmark":
 			# .... insert a function to bookmark here
-			return render_template('feed.html', all_feeds = feed_content)
+			return render_template('feed.html', username = cur_user,  all_feeds = feed_content)
 
-	return render_template('feed.html', all_feeds = feed_content)
+
+	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags())
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
-	is_following = False
 	feed_content = get_feed(username)
+	is_following = True
 	if request.method == 'POST':
-		if request.form['button'] == 'unfollow':
-			# .... insert a function to unfollow a user
-			is_following = False
-		else:
-			# .... insert a function to follow a user
+		if request.form['button'] == 'bookmark':
+			# .... insert a function to bookmark a post
 			is_following = True
+			# .... insert a function here to check is user1 follows user2
+			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
+		else:
+			if request.form['button'] == 'unfollow':
+				# .... insert a function to unfollow a user
+				is_following = False
+			else:
+				# .... insert a function to follow a user
+				is_following = True
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
-		# return "%s is now following %s" %(cur_user, username)
-		# .... to follow a user
 	else:
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
 
@@ -70,7 +83,7 @@ def profile(username):
 @app.route('/myfeeds/<username>', methods = ['GET', 'POST'])
 def myfeeds(username):
 	feed_content = get_feed(username)
-	return render_template('feed.html', all_feeds = feed_content)
+	return render_template('feed.html', username = cur_user,  all_feeds = feed_content)
 
 
 # @app.route('/bookmark/<feed_id>', methods = ['GET', 'POST'])
@@ -84,7 +97,7 @@ def myfeeds(username):
 def post():
 	# add_to_bookmarks(feed_number, username)
 	if request.method == 'POST':
-		content = request.form['user_post']
+		content = request.form['content']
 		
 		tags = request.form['tags']
 		tags = tags.replace(" ", "")
@@ -112,3 +125,11 @@ def get_feed(username):
 		temp['id'] = 1
 		feed_content = [temp]
 	return feed_content
+
+def get_tags():
+	database_active = False
+	if database_active == True:
+		all_tags = get_all_tags()
+	else:
+		all_tags = ['artifical intelligence', 'operating systems']
+	return all_tags
