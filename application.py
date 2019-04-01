@@ -3,11 +3,13 @@ import feed
 import stories
 from datetime import datetime
 from get_all import *
+from following import *
 # Route for handling the login page logic
 app = Flask(__name__)
 
 import login_signup as _database
 cur_user = -1
+last_user = -1
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -21,12 +23,14 @@ def login():
 				error = 'Invalid Credentials. Please try again.'			
 			else:
 				cur_user = request.form['username']
+				last_user = cur_user
 				print(cur_user)
 				return redirect(url_for('home', username = request.form['username']) )
 		else:
 			print(2)				
 			_database.sign_up(request.form['username'], request.form['name'], request.form['password'], request.form['age'], request.form['email'])
 			cur_user = request.form['username']
+			last_user = cur_user
 			return redirect(url_for('home', username = request.form['username']))
 	return render_template('index.html', error=error)
 
@@ -45,13 +49,20 @@ def home(username):
 				# Replace here with something else
 				# Where to display the user?
 				# search_for_user
+				# last_user = request.form["users"]
 				return redirect(url_for('profile', username = request.form["users"]))
+		elif request.form['button']=="Bookmark":
+			if True:
+				post_bookmark = request.form['button1']
+				
+
 		elif request.form['button']=="Search Community":
 			if True:
 				print(request.form["comm"])
 				# Replace here with something else
 				# Where to display the user?
 				# search_for_user
+				# last_user = request.form["comm"]
 				return redirect(url_for('profile', username = request.form["comm"]))
 		elif request.form['button']=="My Profile":
 			return redirect(url_for('profile', username = cur_user))
@@ -82,27 +93,24 @@ def home(username):
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
-	print("username : ", username)
-	feed_content = get_feed_user1(username)
-	if (username == cur_user):
+	if username==cur_user:
 		display_follow = False
 	else:
 		display_follow = True
 
-	is_following = True
+	print("username : ", username)
+	is_following = check_follow(cur_user, username)
+	feed_content = get_feed_user1(username)
+
 	if request.method == 'POST':
-		if request.form['button'] == 'bookmark':
-			# .... insert a function to bookmark a post
-			is_following = True
-			# .... insert a function here to check is user1 follows user2
-			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
+		if request.form['button'] == 'unfollow':
+			# .... insert a function to unfollow a user
+			unfollow(cur_user, username)
+			is_following = False
 		else:
-			if request.form['button'] == 'unfollow':
-				# .... insert a function to unfollow a user
-				is_following = False
-			else:
-				# .... insert a function to follow a user
-				is_following = True
+			follow(cur_user, username)
+			# .... insert a function to follow a user
+			is_following = True
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
 	else:
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
@@ -137,11 +145,13 @@ def post():
 		return redirect(url_for('home', username = cur_user ))
 	return render_template("post.html")
 
-@app.route('/bookmark/<bookmark_id>', methods = ['GET', 'POST'])
-def bookmark(bookmark_id):
-	# .... a function here
-	print("bookmarked, ", bookmark_id)
-	return redirect(url_for('home', username = cur_user ))
+# @app.route('/bookmark/<bookmark_id>/<user>', methods = ['GET', 'POST'])
+# def bookmark(bookmark_id, user):
+# 	# .... a function here
+# 	print(user)
+# 	print("bookmarked, ", bookmark_id)
+
+# 	return redirect(url_for('home', username = cur_user ))
 
 @app.route('/upvote/<upvote_id>', methods = ['GET', 'POST'])
 def upvote(upvote_id):
