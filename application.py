@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request
 import feed 
 import stories
 from datetime import datetime
+from get_all import *
 # Route for handling the login page logic
 app = Flask(__name__)
 
@@ -38,32 +39,46 @@ def home(username):
 	feed_content = get_feed1(username, cur_user)
 
 	if request.method == 'POST':
-		if request.form['button']=="search_user":
+		if request.form['button']=="Search User":
 			if True:
-				print(request.form['search_text'])
+				print(request.form["users"])
 				# Replace here with something else
 				# Where to display the user?
 				# search_for_user
-				return redirect(url_for('profile', username = request.form['search_text']))
+				return redirect(url_for('profile', username = request.form["users"]))
+		elif request.form['button']=="Search Community":
+			if True:
+				print(request.form["comm"])
+				# Replace here with something else
+				# Where to display the user?
+				# search_for_user
+				return redirect(url_for('profile', username = request.form["comm"]))
 		elif request.form['button']=="My Profile":
 			return redirect(url_for('profile', username = cur_user))
-		elif request.form['button']=="tag_search":
+		elif request.form['button']=="Search Tag":
 			# tags = request.form['categories[]']
 			# print(tags)
 			# print("Hello")
-			tag = request.form['tags']
+			tag = request.form["tags"]
 			feed_content = get_feed_given_tags(tag)
-
-			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags(), all_user = get_all_user(), all_comm = get_all_comm())
+			all_tags = get_all_tags()
+			all_user = get_all_user()
+			all_comm = get_all_comm()
+			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 			# return "Tags are : %s" %request.form['tags']
 		else:
 			# .... insert a function to bookmark here
 			feed_id = request.form['button']
 			print(feed_id)
-			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_user = get_all_user(), all_comm = get_all_comm())
+			all_tags = get_all_tags()
+			all_user = get_all_user()
+			all_comm = get_all_comm()
+			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_user = all_user, all_comm = all_comm)
 
-
-	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = get_tags(),all_user = get_all_user(), all_comm = get_all_comm())
+	all_tags = get_all_tags()
+	all_user = get_all_user()
+	all_comm = get_all_comm()
+	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags =all_tags ,all_user = all_user, all_comm = all_comm)
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
@@ -128,6 +143,13 @@ def bookmark(bookmark_id):
 	print("bookmarked, ", bookmark_id)
 	return redirect(url_for('home', username = cur_user ))
 
+@app.route('/upvote/<upvote_id>', methods = ['GET', 'POST'])
+def upvote(upvote_id):
+	# .... a function here
+	print("upvoted, ", upvote_id)
+	# return "Hello"
+	return redirect(url_for('home', username = cur_user ))
+
 def get_feed1(username, cur_user):
 	database_active = True
 	if database_active == True:
@@ -150,7 +172,7 @@ def get_feed1(username, cur_user):
 def get_feed_user1(username):
 	database_active = True
 	if database_active == True:
-		feed_content = stories.search_username(user, cur_user)
+		feed_content = stories.search_username(username, cur_user)
 		print("feed len", len(feed_content))
 		for x in feed_content:
 			# print("post post 1: ", x)
@@ -165,19 +187,3 @@ def get_feed_user1(username):
 		temp['id'] = 1
 		feed_content = [temp]
 	return feed_content
-
-def get_tags():
-	database_active = False
-	if database_active == True:
-		all_tags = get_all_tags()
-	else:
-		all_tags = ['artifical intelligence', 'operating systems']
-	return all_tags
-
-# def get_all_user():
-# 	users = ['saurav', 'prashik', 'piyush', 'ritik']
-# 	return users
-
-# def get_all_comm():
-# 	users = ['saurav', 'prashik', 'piyush', 'ritik']
-# 	return users

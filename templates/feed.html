@@ -10,22 +10,30 @@
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- For fa fa-angle-down -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
+    <link href="../static/img/logo.png" rel="shortcut icon" type="image/png"/>
+
     <script src="../static/js/main.js"></script>
+
     <style>
-      h2{
-        display:inline;
-      }
+      .real-selections {
+            display: none;
+        }
     </style>
 
     </head>
     <body>
 
-    <div class="top-portion" align = "left">
+    <div class="search-box">
         <h2>{{username}}</h2>
         <br>
         <form action="" method="post">
@@ -33,28 +41,33 @@
         </form>
 
         <br>
-
-        <form id="form2" action="" method="POST" enctype="multipart/form-data">
-           <!-- <div style="text-align: right; " > -->
-              <select class="category-select" id="categories-opt1" name = "users" >
-                {% for user in all_user %}
-                <option value="{{ user }}">{{ user }}</option>
-                {% endfor %}
-              </select>
-            <input  class="btn btn-default" type="submit" name = "button" value="Search User">
-          <!-- </div> -->
-        </form>
+        <div class = "category" >
+          <form id="form2" action="" method="POST" enctype="multipart/form-data">
+             <!-- <div style="text-align: right; " > -->
+                <select class="category-select" id="categories-opt1" name = "users" >
+                  {% for user in all_user %}
+                  <option value="{{ user }}">{{ user }}</option>
+                  {% endfor %}
+                </select>
+              <br>
+              <input  class="btn btn-default" type="submit" name = "button" value="Search User">
+            <!-- </div> -->
+          </form>
+       </div>
         <br>
-        <form id="form1" action="" method="POST" enctype="multipart/form-data">
-           <!-- <div style="text-align: right; " > -->
-            <select class="category-select" id="categories-opt2" name = "comm" >
-                {% for comm in all_comm %}
-                <option value="{{ comm }}">{{ comm }}</option>
-                {% endfor %}
-              </select>
-            <input  class="btn btn-default" type="submit" name = "button" value="Search Community">
-          <!-- </div> -->
-        </form>
+         <div class = "category" >
+          <form id="form1" action="" method="POST" enctype="multipart/form-data">
+             <!-- <div style="text-align: right; " > -->
+              <select class="category-select" id="categories-opt2" name = "comm" >
+                  {% for comm in all_comm %}
+                  <option value="{{ comm }}">{{ comm }}</option>
+                  {% endfor %}
+                </select>
+              <br>
+              <input  class="btn btn-default" type="submit" name = "button" value="Search Community">
+            <!-- </div> -->
+          </form>
+        </div>
 
         <!-- {% if error %}
           <p class="error"><strong>Error:</strong> {{ error }} </p>
@@ -67,15 +80,17 @@
             request.form.tag_text }}">
           <input class="btn btn-default" type="submit" name = "button" value="tag_search">
         </form> -->
+      <div class = "category" >
         <form id="form3" action="" method="POST" enctype="multipart/form-data">
             <select class="category-select" id="categories-opt" name = "tags" >
               {% for tag in all_tags %}
               <option value="{{ tag }}">{{ tag }}</option>
               {% endfor %}
             </select>
+            <br>
             <input class="btn btn-default" type="submit" name = "button" value="Search Tag">
         </form>
-
+      </div>
     </div>
 
     <div class="main1" align = "center">
@@ -105,7 +120,9 @@
                     </div>
 
                     <!-- <form action="" method="post"> -->
-                      <a href = "{{ url_for('bookmark', bookmark_id= feed['id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+                      <a href = "{{ url_for('bookmark', bookmark_id= feed['post_id']) }}" > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+
+                      <a href = "{{ url_for('upvote', upvote_id= feed['post_id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="Upvote">
                     <!-- </form> -->
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>

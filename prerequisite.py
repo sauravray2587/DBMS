@@ -11,9 +11,9 @@ def create_prerequisite(post_id1, post_id2):
 	cnx.commit()
 
 
-def get_prerequisits(post_id):
-	query = "SELECT post_id_1 FROM Prerequisite\
-			WHERE post_id_2 = %s"
+def get_prerequisites(post_id):
+	query = "SELECT post_id_2 FROM Prerequisite\
+			WHERE post_id_1 = %s"
 	cursor.execute(query,(post_id,))
 
 	prerequisites = []
@@ -21,7 +21,6 @@ def get_prerequisits(post_id):
 		prerequisites.append(prerequisite_id)
 	return prerequisites
 
-
 if __name__=="__main__":
 	# create_prerequisite(0,2)
-	print(get_prerequisits(2))
+	print(get_prerequisites(0))
