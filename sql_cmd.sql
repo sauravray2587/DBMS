@@ -40,3 +40,4 @@ INSERT INTO `Follower` (`username_1`, `username_2`) VALUES ('piyushrathipr', 'fs
 INSERT INTO `Tags` (`tag_id`) VALUES ('dp');
 INSERT INTO `Tags` (`tag_id`) VALUES ('greedy');
 INSERT INTO `Post_tags` (`post_id`, `tag_id`) VALUES ('1', 'greedy');
+INSERT INTO `Post_tags` (`post_id`, `tag_id`) VALUES ('2', 'greedy');
