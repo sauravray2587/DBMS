@@ -7,9 +7,15 @@
     <body>
 
     <div class="main">
-        <form action="" method="post">
-        <input class="btn btn-default" type="submit" name = "button" value="follow">
-        </form>
+        <div class="follow">
+            <form action="" method="post">
+                {% if follow_status %}
+                    <input class="btn btn-default" type="submit" name = "button" value="unfollow">
+                {% else %}
+                    <input class="btn btn-default" type="submit" name = "button" value="follow">
+                {% endif %}
+            </form>
+        </div>
         <div class="result-list">
             {% for feed in all_feeds %}
                 <div class="result">
@@ -29,9 +35,9 @@
                         <p>{{ feed['content'] }}</p>
                     </div>
 
-                    <div class="bookmark">
-                       <p><a href=" {{ url_for('bookmark', feed_number = feed['id'] ) }}"> Bookmark this feed </a></p>
-                    </div>
+                    <form action="" method="post">
+                      <input class="btn btn-default" type="submit" name = "button" value="bookmark">
+                    </form>
 
                 </div>
             {% endfor %}
