@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 cnx = mysql.connector.connect(user='root', password='qw',
 								  host='127.0.0.1',
 								  database='web')
@@ -34,6 +35,8 @@ def user_post(post_id, username, content, rating = 0, tags = [], community_id = 
 		cursor.execute(query, (post_id, tag))
 
 		cnx.commit()
+
+
 
 
 def get_posts(cursor, cur_user):
@@ -75,7 +78,25 @@ def get_posts(cursor, cur_user):
 
 		result_dict[post_id] = temp_dict
 
-	return result_dict
+
+	for it in result_dict:
+		unsorted_dict[it] = result_dict[it]["post_time"]
+	# print(unsorted_dict)
+	sorted_dict = sorted(unsorted_dict.items(), key = operator.itemgetter(1), reverse =True) 
+
+	sorted_final_dict = {}
+
+	count = 0
+	for it in sorted_dict:
+		if count >= 10:
+			break
+		sorted_final_dict[it[0]] = result_dict[it[0]]
+
+		count += 1
+
+	return sorted_final_dict
+
+
 
 def search_username(username, cur_user):
 
