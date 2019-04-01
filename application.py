@@ -8,13 +8,15 @@ cur_user = -1
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+	global cur_user
 	error = None
 	if request.method == 'POST':
 		if (request.form['submit-button'] == 'login'):
-			print(1)
-			if _database.check_login(request.form['username'], request.form['password']) == False:
+			print(request.form['username'], request.form['password'] )
+			if _database.check_login(request.form['username'], request.form['password']) != True:
 				error = 'Invalid Credentials. Please try again.'			
 			else:
+				cur_user = request.form['username']
 				return redirect(url_for('home', username = request.form['username']))
 		else:
 			print(2)				
@@ -27,17 +29,7 @@ def login():
 def home(username):
 	# return 'User %s' % username
 	# Put Different Tabs for the different features
-	database_active = False
-	if database_active == True:
-		feed_content = find_feeds(username)
-	else:
-		temp = {}
-		temp['username'] = 'random_user1'
-		temp['date'] = '20/03/2019'
-		temp['tags'] = ['ab', 'cd']
-		temp['content'] = ['Hello Friends']
-		temp['id'] = 1
-		feed_content = [temp]
+	feed_content = get_feed(username)
 
 	if request.method == 'POST':
 		if request.form['button']=="search_user":
@@ -51,66 +43,72 @@ def home(username):
 			return redirect(url_for('myfeeds', username = cur_user))
 		elif request.form['button']=="tag_search":
 			return "Tags are : %s" %request.form['tags']
+		elif request.form['button']=="bookmark":
+			# .... insert a function to bookmark here
+			return render_template('feed.html', all_feeds = feed_content)
 
 	return render_template('feed.html', all_feeds = feed_content)
 
 @app.route('/profile/<username>', methods = ['GET', 'POST'])
 def profile(username):
-	database_active = False
-	if database_active == True:
-		feed_content = get_my_feeds(username)
-	else:
-		temp = {}
-		temp['username'] = 'random_user1'
-		temp['date'] = '20/03/2019'
-		temp['tags'] = ['ab', 'cd']
-		temp['content'] = ['Hello Friends']
-		temp['id'] = 1
-		feed_content = [temp]
+	is_following = False
+	feed_content = get_feed(username)
 	if request.method == 'POST':
-		return "%s is now following %s" %(cur_user, username)
-		# follow_user(username, cur_user)
-	return render_template('profile.html', all_feeds = feed_content)
+		if request.form['button'] == 'unfollow':
+			# .... insert a function to unfollow a user
+			is_following = False
+		else:
+			# .... insert a function to follow a user
+			is_following = True
+		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
+		# return "%s is now following %s" %(cur_user, username)
+		# .... to follow a user
+	else:
+		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following)
 
 
 @app.route('/myfeeds/<username>', methods = ['GET', 'POST'])
 def myfeeds(username):
-	database_active = False
-	if database_active == True:
-		feed_content = get_my_feeds(username)
-	else:
-		temp = {}
-		temp['username'] = 'random_user1'
-		temp['date'] = '20/03/2019'
-		temp['tags'] = ['ab', 'cd']
-		temp['content'] = ['Hello Friends']
-		temp['id'] = 1
-		feed_content = [temp]
+	feed_content = get_feed(username)
 	return render_template('feed.html', all_feeds = feed_content)
 
 
-@app.route('/bookmark/<feed_content>/<feed_id>', methods = ['GET', 'POST'])
-def bookmark(feed_content, feed_id):
-	# add_to_bookmarks(feed_number, username)
-	# return "Feed Number %s, bookmarked" 
-	return render_template('feed.html', all_feeds = feed_content)
+# @app.route('/bookmark/<feed_id>', methods = ['GET', 'POST'])
+# def bookmark(feed_id):
+# 	print(cur_user)
+# 	# add_to_bookmarks(feed_number, username)
+# 	# return "Feed Number %s, bookmarked" 
+# 	return redirect(url_for('home', username = cur_user))
 
 @app.route('/post', methods = ['GET', 'POST'])
 def post():
 	# add_to_bookmarks(feed_number, username)
 	if request.method == 'POST':
 		content = request.form['user_post']
+		
 		tags = request.form['tags']
 		tags = tags.replace(" ", "")
 		tags = tags.split(',')
+		
+		preq = request.form['preq']
+		preq = preq.replace(" ", "")
+		preq = preq.split(',')
 		# assign username here
-		username = 'saurav'
+		username = cur_user
 		# post_to_database()
 		return "Your Post Submitted"
 	return render_template("post.html")
 
-
-def addBookmark(x):
-    print("Hello")
-    print(x)
-    return False
+def get_feed(username):
+	database_active = False
+	if database_active == True:
+		feed_content = get_my_feeds(username)
+	else:
+		temp = {}
+		temp['username'] = 'random_user1'
+		temp['date'] = '20/03/2019'
+		temp['tags'] = ['ab', 'cd']
+		temp['content'] = ['Hello Friends']
+		temp['id'] = 1
+		feed_content = [temp]
+	return feed_content
