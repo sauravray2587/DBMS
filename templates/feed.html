@@ -3,6 +3,32 @@
     <title>Your Newsfeed, Enjoy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Legal Assistant, Legal Query, Cases, Acts, Legal Help" name="keywords"/>
+    <meta content="Open Soft" name="author"/>
+    <link href="../static/css/style.css" rel="stylesheet">
+
+
+    <script src="../static/js/script.js"></script>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- For fa fa-angle-down -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+
+    <link href="../static/img/logo.png" rel="shortcut icon" type="image/png"/>
+
+    <script src="../static/js/main.js"></script>
+
     </head>
     <body>
 
@@ -29,9 +55,9 @@
                         <p>{{ feed['content'] }}</p>
                     </div>
 
-                    <div class="bookmark">
-                       <p><a href=" {{ url_for('bookmark', feed_content = all_feeds, feed_id = feed['id'] ) }}"> Bookmark this feed </a></p>
-                    </div>
+                    <form action="" method="post">
+                      <input class="btn btn-default" type="submit" name = "button" value="bookmark">
+                    </form>
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>
                     </form> -->
@@ -45,7 +71,7 @@
       <h1>Search</h1>
       <br>
       <form action="" method="post">
-        <input type="text" placeholder="Search Query" name="search_text" value="{{
+        <input type="text" placeholder="Search for a User or Community" name="search_text" value="{{
           request.form.search_text }}">
         <input class="btn btn-default" type="submit" name = "button" value="search_user">
       </form>
@@ -65,11 +91,21 @@
           request.form.tag_text }}">
         <input class="btn btn-default" type="submit" name = "button" value="tag_search">
       </form>
+
+      <div class="category">
+          <select class="category-select" id="categories-opt" multiple="multiple" name="categories[]">
+              <option val="1">alpha</option>
+              <option val="2">beta</option>
+          </select>
+          <p>Categories</p>
+          <button type="submit" id="search_button" class="btn btn-default" value="search">Search</button>
+      </div>
+
     </div>
 
     </body>
 </html>
-
+<!-- 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type=text/javascript>
         $(function() {
@@ -81,7 +117,7 @@
             return false;
           });
         });
-</script>
+</script> -->
 
 
 <!-- //button
