@@ -117,7 +117,7 @@ def get_posts(cursor, cur_user):
 		result_list.append(temp_dict)
 
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
-	# print("result, ", result_list)
+	print("result, ", result_list)
 	return result_list
 
 

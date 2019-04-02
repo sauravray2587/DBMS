@@ -28,7 +28,8 @@ def get_feed(username ):
 	for (following,) in cursor:
 		posts = search_username(following, username)
 		for post in posts:
-			print("post :", post)
+			# print("post :", post)
+			print("post cnt")
 			feed_list.append(post)
 	# x = feed_list.sort(key = lambda z: (print(z), z['post_time']), reverse = True)
 	# print("x ::", x)
