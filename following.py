@@ -37,8 +37,10 @@ def unfollow(username_1, username_2):
 	cnx.commit()
 
 def check_follow(username_1, username_2):
+	
 	query = ("select * from Follower where username_1 = %s and username_2 = %s")
 	cursor.execute(query, (username_1, username_2))
+
 	if cursor._rowcount>0:
 		return True
 	else:

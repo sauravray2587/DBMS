@@ -17,7 +17,7 @@ cnx = mysql.connector.connect(user='root', password=pw,
 cursor = cnx.cursor(buffered=True)
 
 
-def get_feed(username ):
+def get_feed(username):
 
 	query = ("SELECT username_2 FROM Follower"
 			 " WHERE username_1 = %s ")

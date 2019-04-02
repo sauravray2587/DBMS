@@ -1,6 +1,7 @@
 import mysql.connector
 import operator
 import os
+from stories import *
 
 if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
@@ -33,5 +34,18 @@ def unbookmark(username, post_id):
 
 	cnx.commit()
 
+
+def get_bookmarked(username):
+
+	query = ("SELECT Post.post_id, Post.username, content, rating, community_id, post_time\
+			from Post, Bookmark where Post.post_id = Bookmark.post_id and Bookmark.username = %s")
+
+	cursor.execute(query, (username, ))
+
+	x = get_posts(cursor, username)
+
+	return x
+
+
 if __name__ == '__main__':
-	bookmark('piyushrathipr', 32)
+	print(get_bookmarked('piyushrathipr'))
