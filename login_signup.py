@@ -1,8 +1,29 @@
 import mysql.connector
 import os
+import hashlib
 from config import *
 
+
 cursor = cnx.cursor(buffered=True)
+
+def get_md(password):
+    return hashlib.md5(password.encode('utf-8')).hexdigest()
+
+def is_available(username):
+
+    query = ("select * from User where username = %s")
+    cursor.execute(query, (username, ))
+
+    if cursor._rowcount > 0:
+        return False
+
+    query = ("select * from Community where community_id = %s")
+    cursor.execute(query, (username, ))
+
+    if cursor._rowcount > 0:
+        return False
+
+    return True
 
 
 def sign_up(username, name, password, age, email):
@@ -25,16 +46,14 @@ def check_login(username, password):
         return False
 
     for (saved_password,) in cursor:
-        if password == saved_password:
+        if get_md(password) == saved_password:
             return True
         else:
-            print("Password not matched password = ", password, "actual password = ",saved_password)
+            print("Password don't match")
             return False
 
 
 
 
 if __name__=="__main__":
-    # sign_up("fsociety00","Shubham","say_hi", 21,"fsociety@gmail.com")
-    print(check_login("fsociety00","say_hi"))
-    # user_post("3" , "fsociety00", "high level content")
+    print(is_available('piyushrathipr'))
