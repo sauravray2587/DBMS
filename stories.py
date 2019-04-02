@@ -19,7 +19,7 @@ def get_rating(post_id):
 	for (count, ) in cursor2:
 		return count
 
-def user_post(username, content, rating = 0, tags = [], community_id = None):
+def user_post(username, content, rating = 0, tags = "ai", community_id = None):
 	community_id = community_id.replace(" ", "")
 	if len(community_id)==0:
 		community_id = None
@@ -42,22 +42,21 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 
 
 
-	for tag in tags:
 
-		query = ("select * from Tags where tag_id = %s")
-		cursor.execute(query, (tag, ))
+	query = ("select * from Tags where tag_id = %s")
+	cursor.execute(query, (tags, ))
 
-		if cursor._rowcount == 0:
+	if cursor._rowcount == 0:
 
-			query = ("insert into Tags VALUES(%s, NULL, 0)")
-			cursor.execute(query, (tag, ))
-			cnx.commit()
-
-
-		query = ("insert into Post_tags values(%s, %s)")
-		cursor.execute(query, (id_here, tag))
-
+		query = ("insert into Tags VALUES(%s, NULL, 0)")
+		cursor.execute(query, (tags, ))
 		cnx.commit()
+
+
+	query = ("insert into Post_tags values(%s, %s)")
+	cursor.execute(query, (id_here, tags))
+
+	cnx.commit()
 
 	return id_here
 
@@ -74,13 +73,13 @@ def get_posts(cursor, cur_user):
 		temp_dict['rating'] = get_rating(post_id)
 		temp_dict['community_id'] = community_id
 		temp_dict['post_time'] = post_time.date()
-		temp_dict['tags'] = []
 
 		query = ("SELECT tag_id from Post_tags where post_id = %s")
 		cursor1.execute(query, (post_id,))
 
 		for (tag, ) in cursor1:
-			temp_dict['tags'].append(tag)
+			temp_dict['tags'] = tag
+			break
 
 
 		query = ("SELECT * from Bookmark where username = %s and post_id = %s")

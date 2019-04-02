@@ -216,20 +216,25 @@ def post():
 		content = request.form['content']
 		
 		tags = request.form['tags']
-		tags = tags.replace(" ", "")
-		tags = tags.split(',')
+		# tags = tags.replace(" ", "")
+		# tags = tags.split(',')
 		
 		preq = request.form['preq']
+		print(preq)
 		# preq = preq.replace(" ", "")
 		# preq = preq.split(',')
 		comm = request.form['comm']
 		# assign username here
 		username = cur_user
+		print(username, content, tags, comm, preq)
 		new_post = stories.user_post(username, content, 5, tags, comm)
 		create_prerequisite(new_post, preq)
 		# post_to_database()
 		return redirect(url_for('home', username = cur_user ))
-	return render_template("post.html")
+	all_comm = get_all_comm()
+	all_preq = get_all_posts()
+	all_tags = get_all_tags()
+	return render_template("post.html", all_preq = all_preq, all_comm = all_comm, all_tags = all_tags)
 
 @app.route('/bookmark/<username>/', methods = ['GET', 'POST'])
 def bookmark(username):
