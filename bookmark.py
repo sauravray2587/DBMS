@@ -12,7 +12,8 @@ dbase = 'web'
 
 cnx = mysql.connector.connect(user='root', password=pw,
                                   host='127.0.0.1',
-                                  database=dbase)
+                                  database=dbase,
+                                  autocommit = True)
 cursor = cnx.cursor(buffered=True)
 
 def bookmark(username, post_id):

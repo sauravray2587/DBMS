@@ -10,7 +10,8 @@ else:
 
 cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
-								  database='web')
+								  database='web',
+								  autocommit = True)
 cursor = cnx.cursor(buffered=True)
 
 

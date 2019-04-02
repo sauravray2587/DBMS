@@ -8,6 +8,7 @@ from bookmark import *
 from search_queries import *
 from upvote import *
 from prerequisite import *
+from community import *
 # Route for handling the login page logic
 app = Flask(__name__)
 
@@ -57,7 +58,7 @@ def home(username):
 				return redirect(url_for('profile', username = request.form["users"], type = 0))
 		elif request.form['button']=="Show Bookmarks":
 			if True:
-				return redirect(url_for('bookmarks'), username = cur_user)
+				return redirect(url_for('bookmark', username = cur_user))
 
 		elif request.form['button']=="Bookmark":
 			if True:
@@ -131,7 +132,7 @@ def home(username):
 	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags =all_tags ,all_user = all_user, all_comm = all_comm)
 
 @app.route('/profile/<username>/<int:type>', methods = ['GET', 'POST'])
-def profile(username):
+def profile(username, type):
 
 	if username==cur_user:
 		display_follow = False
@@ -145,6 +146,7 @@ def profile(username):
 		feed_content = get_bookmarked(username)
 	else:
 		feed_content = get_feed_user1(username)
+
 
 	if request.method == 'POST':
 		if request.form['button'] == 'unfollow':
@@ -186,12 +188,12 @@ def profile(username):
 		elif request.form['button']=="PreRequisite":
 			if True:
 				post_prereq = request.form["button33"]
-				# feed_content = get_prerequisites(cur_user, post_prereq )
-				# all_tags = get_all_tags()
-				# all_user = get_all_user()
-				# all_comm = get_all_comm()
-				# return render_template('profile.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
-				return redirect(url_for('profile', username = username, type = 0))
+				feed_content = get_prerequisites(cur_user, post_prereq )
+				all_tags = get_all_tags()
+				all_user = get_all_user()
+				all_comm = get_all_comm()
+				return render_template('profile.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				# return redirect(url_for('profile', username = username, type = 0))
 	else:
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow, username = username)
 
@@ -226,7 +228,7 @@ def post():
 		return redirect(url_for('home', username = cur_user ))
 	return render_template("post.html")
 
-@app.route('/bookmarks/<username>/', methods = ['GET', 'POST'])
+@app.route('/bookmark/<username>/', methods = ['GET', 'POST'])
 def bookmark(username):
 	# .... a function here
 	# bookmark_feeds = get_bookmarked(username)
@@ -245,10 +247,6 @@ def get_feed1(username, cur_user):
 	if database_active == True:
 		feed_content = feed.get_feed(cur_user)
 		print("feed len", len(feed_content))
-		for x in feed_content:
-			print("post post 1: ", x)
-			x['post_time'] = x['post_time'].date()
-			print("post post 2: ", x)
 	else:
 		temp = {}
 		temp['username'] = 'random_user1'
@@ -263,11 +261,8 @@ def get_feed_user1(username):
 	database_active = True
 	if database_active == True:
 		feed_content = stories.search_username(username, cur_user)
-		print("feed len", len(feed_content))
-		for x in feed_content:
-			# print("post post 1: ", x)
-			x['post_time'] = x['post_time'].date()
-			print("post post 2: ", x)
+		if len(feed_content)==0:
+			feed_content = search_community(username, cur_user)
 	else:
 		temp = {}
 		temp['username'] = 'random_user1'

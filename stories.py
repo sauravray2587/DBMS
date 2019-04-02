@@ -1,6 +1,7 @@
 import mysql.connector
 import operator
 import os
+from datetime import datetime
 
 if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
@@ -82,7 +83,7 @@ def get_posts(cursor, cur_user):
 		temp_dict['content'] = content
 		temp_dict['rating'] = get_rating(post_id)
 		temp_dict['community_id'] = community_id
-		temp_dict['post_time'] = post_time
+		temp_dict['post_time'] = post_time.date()
 		temp_dict['tags'] = []
 
 		query = ("SELECT tag_id from Post_tags where post_id = %s")
