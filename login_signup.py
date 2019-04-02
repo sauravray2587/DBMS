@@ -22,7 +22,7 @@ def is_available(username):
 
     if cursor._rowcount > 0:
         return False
-
+    print("This is new username")
     return True
 
 

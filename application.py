@@ -30,15 +30,16 @@ def login():
 				error = 'Invalid Credentials. Please try again.'			
 			else:
 				cur_user = request.form['username']
-				last_user = cur_user
 				print(cur_user)
 				return redirect(url_for('home', username = request.form['username']) )
 		else:
-			print(2)				
-			_database.sign_up(request.form['username'], request.form['name'], request.form['password'], request.form['age'], request.form['email'])
-			cur_user = request.form['username']
-			last_user = cur_user
-			return redirect(url_for('home', username = request.form['username']))
+			print(2)	
+			if _database.is_available(request.form['username']) == False:
+				error = "Username already exists, Try another"
+			else:			
+				_database.sign_up(request.form['username'], request.form['name'], request.form['password'], request.form['age'], request.form['email'])
+				cur_user = request.form['username']
+				return redirect(url_for('home', username = request.form['username']))
 	return render_template('index.html', error=error)
 
 
