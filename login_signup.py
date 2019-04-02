@@ -7,6 +7,7 @@ from config import *
 cursor = cnx.cursor(buffered=True)
 
 def get_md(password):
+    # return password
     return hashlib.md5(password.encode('utf-8')).hexdigest()
 
 def is_available(username):

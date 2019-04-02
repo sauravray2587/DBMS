@@ -10,10 +10,10 @@ from upvote import *
 from prerequisite import *
 from community import *
 from config import *
+import login_signup as _database
 # Route for handling the login page logic
 app = Flask(__name__)
 
-import login_signup as _database
 cur_user = -1
 last_user = -1
 
