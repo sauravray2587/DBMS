@@ -3,6 +3,7 @@ from stories import *
 import operator
 import os
 
+
 if (os.environ['USER']=='saurav'):
     pw = 'qwerty@123'
 else:
@@ -17,7 +18,7 @@ cnx = mysql.connector.connect(user='root', password=pw,
 cursor = cnx.cursor(buffered=True)
 
 
-def get_feed(username ):
+def get_feed(username):
 
 	query = ("SELECT username_2 FROM Follower"
 			 " WHERE username_1 = %s ")
@@ -28,10 +29,9 @@ def get_feed(username ):
 	for (following,) in cursor:
 		posts = search_username(following, username)
 		for post in posts:
-			print("post :", post)
 			feed_list.append(post)
-	# x = feed_list.sort(key = lambda z: (print(z), z['post_time']), reverse = True)
-	# print("x ::", x)
+
+	feed_list.sort(key = lambda z: (print(z), z['post_time']), reverse = True)
 	return feed_list
 
 

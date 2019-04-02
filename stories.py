@@ -35,6 +35,7 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 	query = ("select post_id from Post order by post_id desc limit 0, 1")
 	cursor.execute(query, ())
 
+	id_here = 0
 	for (post_id, ) in cursor:
 		id_here = int(post_id) + 1
 
@@ -120,7 +121,7 @@ def get_posts(cursor, cur_user):
 
 		result_list.append(temp_dict)
 
-	print("result, ", result_list)
+	# print("result, ", result_list)
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
 	# print("result, ", result_list)
 	return result_list
