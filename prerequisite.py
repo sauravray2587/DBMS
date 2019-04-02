@@ -8,6 +8,8 @@ cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 def create_prerequisite(post_id1, post_id2):
+	if post_id2 == "" or len(post_id2)==0:
+		return
 	query = "INSERT INTO Prerequisite VALUES (%s, %s)"
 	cursor.execute(query,(post_id1,post_id2))
 	cnx.commit()

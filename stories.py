@@ -23,12 +23,12 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 	community_id = community_id.replace(" ", "")
 	if len(community_id)==0:
 		community_id = None
-	query = ("select post_id from Post order by post_id desc limit 0, 1")
+	query = ("select post_id from Post order by post_id desc ")
 	cursor.execute(query, ())
 
 	id_here = 0
 	for (post_id, ) in cursor:
-		id_here = int(post_id) + 1
+		id_here = max(id_here, int(post_id) + 1)
 
 	if community_id != None:
 		s = "INSERT INTO `Post` (`post_id`, `username`, `content`, `rating`, `community_id`) VALUES (%s, %s, %s, %s, %s )";

@@ -30,15 +30,16 @@ def login():
 				error = 'Invalid Credentials. Please try again.'			
 			else:
 				cur_user = request.form['username']
-				last_user = cur_user
 				print(cur_user)
 				return redirect(url_for('home', username = request.form['username']) )
 		else:
-			print(2)				
-			_database.sign_up(request.form['username'], request.form['name'], request.form['password'], request.form['age'], request.form['email'])
-			cur_user = request.form['username']
-			last_user = cur_user
-			return redirect(url_for('home', username = request.form['username']))
+			print(2)	
+			if _database.is_available(request.form['username']) == False:
+				error = "Username already exists, Try another"
+			else:			
+				_database.sign_up(request.form['username'], request.form['name'], request.form['password'], request.form['age'], request.form['email'])
+				cur_user = request.form['username']
+				return redirect(url_for('home', username = request.form['username']))
 	return render_template('index.html', error=error)
 
 
@@ -164,7 +165,7 @@ def profile(username, type):
 		elif request.form['button']=="Bookmark":
 			if True:
 				post_bookmark = request.form['button11']
-				bookmark(cur_user, post_bookmark)
+				bm.bookmark(cur_user, post_bookmark)
 				# sleep(2)
 				# feed_content = get_feed1(username, cur_user)
 				# print(feed_content)
@@ -265,7 +266,7 @@ def get_feed_user1(username):
 		feed_content = stories.search_username(username, cur_user)
 		if len(feed_content)==0:
 			print("user :", username)
-			feed_content = search_community(username, cur_user)
+			feed_content = community_posts(username, cur_user)
 			print("feed : ", feed_content)
 	else:
 		temp = {}
