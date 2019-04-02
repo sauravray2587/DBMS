@@ -48,7 +48,7 @@
         </form>
 
         <form action="" method="post">
-          <input class="btn btn-default" type="submit" name = "button" value="Bookmarks">
+          <input class="btn btn-default" type="submit" name = "button" value="Show Bookmarks">
         </form>        
 
         <br>
@@ -131,16 +131,27 @@
                     </div>
 
           
-
+                      {% if feed['bookmark'] == 0 %}
                       <form action="" method="post">
                         <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
                         <input type = "hidden" class="btn btn-default" type="submit" name = "button11" value="{{feed['post_id']}}">
                       </form>
+                      {% else %}
+                          <input class="btn btn-default" type="submit" name = "button" value="Bookmarked">
 
-                      <form action="" method="post">
-                        <input class="btn btn-default" type="submit" name = "button" value="Upvote">
-                        <input type = "hidden" class="btn btn-default" type="submit" name = "button22" value="{{feed['post_id']}}">
-                      </form>
+                      {% endif %}
+
+                      {% if feed['upvote'] == 0 %}
+                          <form action="" method="post">
+                            <input class="btn btn-default" type="submit" name = "button" value="Upvote">
+                            <input type = "hidden" class="btn btn-default" type="submit" name = "button22" value="{{feed['post_id']}}">
+                          </form>
+
+                      {% else %}
+                          <input class="btn btn-default" type="submit" name = "button" value="Upvoted">
+                          <br>
+                      {% endif %}
+                      <br>
 
                       <form action="" method="post">
                         <input class="btn btn-default" type="submit" name = "button" value="PreRequisite">

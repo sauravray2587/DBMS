@@ -54,7 +54,11 @@ def home(username):
 				# Where to display the user?
 				# search_for_user
 				# last_user = request.form["users"]
-				return redirect(url_for('profile', username = request.form["users"]))
+				return redirect(url_for('profile', username = request.form["users"], type = 0))
+		elif request.form['button']=="Show Bookmarks":
+			if True:
+				return redirect(url_for('bookmarks'), username = cur_user)
+
 		elif request.form['button']=="Bookmark":
 			if True:
 				post_bookmark = request.form['button11']
@@ -97,9 +101,9 @@ def home(username):
 				# Where to display the user?
 				# search_for_user
 				# last_user = request.form["comm"]
-				return redirect(url_for('profile', username = request.form["comm"]))
+				return redirect(url_for('profile', username = request.form["comm"], type = 0))
 		elif request.form['button']=="My Profile":
-			return redirect(url_for('profile', username = cur_user))
+			return redirect(url_for('profile', username = cur_user, type = 0))
 		elif request.form['button']=="Search Tag":
 			# tags = request.form['categories[]']
 			# print(tags)
@@ -126,8 +130,9 @@ def home(username):
 	all_comm = get_all_comm()
 	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags =all_tags ,all_user = all_user, all_comm = all_comm)
 
-@app.route('/profile/<username>', methods = ['GET', 'POST'])
+@app.route('/profile/<username>/<int:type>', methods = ['GET', 'POST'])
 def profile(username):
+
 	if username==cur_user:
 		display_follow = False
 	else:
@@ -135,18 +140,23 @@ def profile(username):
 
 	print("username : ", username)
 	is_following = check_follow(cur_user, username)
-	feed_content = get_feed_user1(username)
+	# type = 1 represents bookmarked posts
+	if type==1:
+		feed_content = get_bookmarked(username)
+	else:
+		feed_content = get_feed_user1(username)
 
 	if request.method == 'POST':
 		if request.form['button'] == 'unfollow':
 			# .... insert a function to unfollow a user
 			unfollow(cur_user, username)
 			is_following = False
+			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow, username = username)
 		elif request.form['button'] == 'follow':
 			follow(cur_user, username)
 			# .... insert a function to follow a user
 			is_following = True
-			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
+			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow, username = username)
 		elif request.form['button']=="Bookmark":
 			if True:
 				post_bookmark = request.form['button11']
@@ -157,7 +167,7 @@ def profile(username):
 				# all_tags = get_all_tags()
 				# all_user = get_all_user()
 				# all_comm = get_all_comm()
-				return redirect(url_for('profile', username = username))
+				return redirect(url_for('profile', username = username, type = 0))
 				
 		elif request.form['button']=="Upvote":
 			if True:
@@ -170,7 +180,7 @@ def profile(username):
 				# all_user = get_all_user()
 				# all_comm = get_all_comm()
 				# user1 = username
-				return redirect(url_for('profile', username = username))
+				return redirect(url_for('profile', username = username, type = 0))
 				# return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 				
 		elif request.form['button']=="PreRequisite":
@@ -181,9 +191,9 @@ def profile(username):
 				# all_user = get_all_user()
 				# all_comm = get_all_comm()
 				# return render_template('profile.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
-				return redirect(url_for('profile', username = username))
+				return redirect(url_for('profile', username = username, type = 0))
 	else:
-		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
+		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow, username = username)
 
 
 
@@ -216,13 +226,12 @@ def post():
 		return redirect(url_for('home', username = cur_user ))
 	return render_template("post.html")
 
-# @app.route('/bookmark/<bookmark_id>/<user>', methods = ['GET', 'POST'])
-# def bookmark(bookmark_id, user):
-# 	# .... a function here
-# 	print(user)
-# 	print("bookmarked, ", bookmark_id)
-
-# 	return redirect(url_for('home', username = cur_user ))
+@app.route('/bookmarks/<username>/', methods = ['GET', 'POST'])
+def bookmark(username):
+	# .... a function here
+	# bookmark_feeds = get_bookmarked(username)
+	print(username)
+	return redirect(url_for('profile', username = cur_user, type = 1))
 
 # @app.route('/upvote/<upvote_id>', methods = ['GET', 'POST'])
 # def upvote(upvote_id):
