@@ -1,9 +1,13 @@
 import mysql.connector
 import os
+import hashlib
 from config import *
+
 
 cursor = cnx.cursor(buffered=True)
 
+def get_md(password):
+    return hashlib.md5(password.encode('utf-8')).hexdigest()
 
 def sign_up(username, name, password, age, email):
     query = "insert into User(username,name,password,age,email) \
@@ -25,10 +29,10 @@ def check_login(username, password):
         return False
 
     for (saved_password,) in cursor:
-        if password == saved_password:
+        if get_md(password) == saved_password:
             return True
         else:
-            print("Password not matched password = ", password, "actual password = ",saved_password)
+            print("Password don't match")
             return False
 
 
