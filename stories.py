@@ -35,6 +35,7 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 	query = ("select post_id from Post order by post_id desc limit 0, 1")
 	cursor.execute(query, ())
 
+	id_here = 0
 	for (post_id, ) in cursor:
 		id_here = int(post_id) + 1
 
