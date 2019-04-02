@@ -28,6 +28,13 @@
       .real-selections {
             display: none;
         }
+      .striped-border {
+        border: 1px dashed #000;
+        width: 50%;
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
     </style>
 
     </head>
@@ -39,6 +46,10 @@
         <form action="" method="post">
           <input class="btn btn-default" type="submit" name = "button" value="My Profile">
         </form>
+
+        <form action="" method="post">
+          <input class="btn btn-default" type="submit" name = "button" value="Bookmarks">
+        </form>        
 
         <br>
         <div class = "category" >
@@ -104,7 +115,7 @@
 
 
                     <div class="heading">
-                        <p class="username"><strong>Username</strong> : {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </a></p>
+                        <p class="username"><strong>Username</strong> : {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </p>
                         <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
                         <p class="ratings"> <strong> Rating : {{ feed['rating'] }} </strong></p>
                     </div>
@@ -119,15 +130,30 @@
                         <p>{{ feed['content'] }}</p>
                     </div>
 
-                    <!-- <form action="" method="post"> -->
-                      <a href = "{{ url_for('bookmark', bookmark_id= feed['post_id']) }}" > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+          
 
-                      <a href = "{{ url_for('upvote', upvote_id= feed['post_id'] ) }}" > <input class="btn btn-default" type="submit" name = "button" value="Upvote">
+                      <form action="" method="post">
+                        <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+                        <input type = "hidden" class="btn btn-default" type="submit" name = "button11" value="{{feed['post_id']}}">
+                      </form>
+
+                      <form action="" method="post">
+                        <input class="btn btn-default" type="submit" name = "button" value="Upvote">
+                        <input type = "hidden" class="btn btn-default" type="submit" name = "button22" value="{{feed['post_id']}}">
+                      </form>
+
+                      <form action="" method="post">
+                        <input class="btn btn-default" type="submit" name = "button" value="PreRequisite">
+                        <input type = "hidden" class="btn btn-default" type="submit" name = "button33" value="{{feed['post_id']}}">
+                      </form>
+
+
+                      
                     <!-- </form> -->
                     <!-- <form>
                         <button class='btn btn-default' id = 'test' >Test</button>
                     </form> -->
-
+                    <hr class = "striped-border" >
                 </div>
             {% endfor %}
         </div>

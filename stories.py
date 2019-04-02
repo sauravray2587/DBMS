@@ -10,19 +10,23 @@ else:
 
 cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
-								  database='web')
+								  database='web',
+								  autocommit = True)
+
 cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
 
 def get_rating(post_id):
+	cursor2 = cnx.cursor(buffered=True)
+	# post_id = str(post_id)
+	query = "select count(*) from Post_vote where post_id = %s group by %s "
+	cursor2.execute(query, (post_id, post_id))
+	if cursor2._rowcount == 0:
+		return 0
 
-	query = "select count(*) from Post_vote group by %s"
-	cursor.execute(query, (post_id,))
-
-	for (count, ) in cursor:
+	for (count, ) in cursor2:
 		return count
-
 
 def user_post(username, content, rating = 0, tags = [], community_id = None):
 	community_id = community_id.replace(" ", "")
@@ -31,6 +35,7 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 	query = ("select post_id from Post order by post_id desc limit 0, 1")
 	cursor.execute(query, ())
 
+	id_here = 0
 	for (post_id, ) in cursor:
 		id_here = int(post_id) + 1
 
@@ -63,14 +68,14 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 
 		cnx.commit()
 
-
+	return id_here
 
 
 def get_posts(cursor, cur_user):
 	result_list = []
-	# print(cursor._rowcount)
+	# print("rows : " , cursor._rowcount)
 	for (post_id, username, content, rating, community_id, post_time) in cursor:
-		
+
 		temp_dict = {}
 		temp_dict['post_id'] = post_id
 		temp_dict['username'] = username
@@ -116,6 +121,7 @@ def get_posts(cursor, cur_user):
 
 		result_list.append(temp_dict)
 
+	print("result, ", result_list)
 	result_list.sort(key = lambda x: x['post_time'], reverse = True)
 	print("result, ", result_list)
 	return result_list
@@ -130,7 +136,7 @@ def search_username(username, cur_user):
 	cursor.execute(query, (username,))
 	# print("row count, ", cursor._rowcount)
 	x = get_posts(cursor, cur_user)
-	# print("x, " , x)
+	print("x, " , x)
 	return x
 
 

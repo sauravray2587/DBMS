@@ -23,6 +23,8 @@ def add_request(username, content, taglist):
 		cursor.execute(query,(cur_id,tag_id))
 	cnx.commit()
 
+
+
 def get_pending_requests():
 	
 	query = "SELECT * FROM Request"

@@ -19,6 +19,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script src="../static/js/main.js"></script>
 
+    <style>
+      .real-selections {
+            display: none;
+        }
+      .striped-border {
+        border: 1px dashed #000;
+        width: 50%;
+        margin: auto;
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+    </style>
+
     </head>
     <body>
 
@@ -42,8 +55,9 @@
 
 
                     <div class="heading">
-                        <p> {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </a></p>
+                        <p class="username"><strong>Username</strong> : {{ feed['username'] }}  <strong>  Date</strong> : {{ feed['post_time'] }} </p>
                         <p class="tags"><strong>Tags</strong> : {{ feed['tags'] }}</p>
+                        <p class="ratings"> <strong> Rating : {{ feed['rating'] }} </strong></p>
                     </div>
                     <!-- <div class="info" align = "center">
                         <ul>
@@ -55,18 +69,26 @@
                     <div class="summary">
                         <p>{{ feed['content'] }}</p>
                     </div>
-                    <!--  , username =  {{ username }} ) }} -->
-                    <a href = "{{ url_for('bookmark', bookmark_id= feed['post_id']) }} " > <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+                   
 
-                    {% if follow_status %}
-                    <a href = "{{ url_for('upvote', upvote_id= feed['post_id']) }}" > <input class="btn btn-default" type="submit" name = "button" value="Upvote">
-                    <br>
-                    {% endif %}
+                    <form action="" method="post">
+                      <input class="btn btn-default" type="submit" name = "button" value="Bookmark">
+                      <input type = "hidden" class="btn btn-default" type="submit" name = "button11" value="{{feed['post_id']}}">
+                    </form>
+
+                    <form action="" method="post">
+                      <input class="btn btn-default" type="submit" name = "button" value="Upvote">
+                      <input type = "hidden" class="btn btn-default" type="submit" name = "button22" value="{{feed['post_id']}}">
+                    </form>
+
+                    <form action="" method="post">
+                      <input class="btn btn-default" type="submit" name = "button" value="PreRequisite">
+                      <input type = "hidden" class="btn btn-default" type="submit" name = "button33" value="{{feed['post_id']}}">
+                    </form>
 
                     <br>
-                    <!-- <form>
-                        <button class='btn btn-default' id = 'test' >Test</button>
-                    </form> -->
+                    <hr class = "striped-border" >
+        
 
                 </div>
             {% endfor %}

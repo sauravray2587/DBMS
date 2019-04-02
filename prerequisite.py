@@ -1,6 +1,6 @@
 import mysql.connector
 from config import connect_database
-
+from stories import *
 
 cnx = connect_database()
 cursor = cnx.cursor(buffered=True)
@@ -24,7 +24,7 @@ def get_prerequisites(cur_user, post_id):
 
 		cursor1.execute(query, (prerequisite_id,))
 
-		prerequisites.extend(get_post(cursor1,cur_user))
+		prerequisites.extend(get_posts(cursor1,cur_user))
 	return prerequisites
 
 if __name__=="__main__":
