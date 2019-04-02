@@ -265,7 +265,7 @@ def get_feed_user1(username):
 		feed_content = stories.search_username(username, cur_user)
 		if len(feed_content)==0:
 			print("user :", username)
-			feed_content = search_community(username, cur_user)
+			feed_content = community_posts(username, cur_user)
 			print("feed : ", feed_content)
 	else:
 		temp = {}
