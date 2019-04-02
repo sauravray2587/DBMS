@@ -38,7 +38,8 @@ def search_community(community_id, cur_user):
 
 	cursor.execute(query, (community_id,))
 
-	return get_posts(cursor, cur_user)
+	x = get_posts(cursor, cur_user)
+	return x
 
 
 def add_user(community_id,cur_user):
