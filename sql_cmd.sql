@@ -34,7 +34,8 @@ create table Post_vote(post_id varchar(30), username varchar(30),
 -- username_1 is follower of username_2
 -- post_id_2 is prerequisite of post_id_1
 
-ALTER TABLE `Post` MODIFY COLUMN `post_id` INT NOT NULL AUTO_INCREMENT ;
+UPDATE User
+SET password = MD5(password);
 
 INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('piyushrathipr', 'piyush', 'areyar', '19', 'piy@gmail.com');
 INSERT INTO `User` (`username`, `name`, `password`, `age`, `email`) VALUES ('fsociety00', 'shubham', 'say_hi', '20', 'fsoc@gmail.com');
