@@ -14,10 +14,17 @@ cnx = mysql.connector.connect(user='root', password=pw,
 cursor = cnx.cursor(buffered=True)
 
 
-def create_community(community_id, community_name, no_of_members, no_of_posts):
+def create_community(community_name, no_of_members = 0, no_of_posts = 0):
+
+	query = ("select community_id from Community order by community_id desc limit 0, 1")
+	cursor.execute(query, ())
+
+	id_here = 0
+	for (post_id, ) in cursor:
+		id_here = int(post_id) + 1
 
 	query = ("insert into Community VALUES(%s, %s, %s, %s)")
-	cursor.execute(query, (community_id, community_name, no_of_members,\
+	cursor.execute(query, (id_here, community_name, no_of_members,\
 		 no_of_posts))
 
 	cnx.commit()
