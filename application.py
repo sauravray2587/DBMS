@@ -4,7 +4,7 @@ import stories
 from datetime import datetime
 from get_all import *
 from following import *
-from bookmark import *
+import bookmark as bm
 from search_queries import *
 from upvote import *
 from prerequisite import *
@@ -65,7 +65,7 @@ def home(username):
 		elif request.form['button']=="Bookmark":
 			if True:
 				post_bookmark = request.form['button11']
-				bookmark(cur_user, post_bookmark)
+				bm.bookmark(cur_user, post_bookmark)
 				# sleep(2)
 				# feed_content = get_feed1(username, cur_user)
 				# print(feed_content)
@@ -145,7 +145,7 @@ def profile(username, type):
 	is_following = check_follow(cur_user, username)
 	# type = 1 represents bookmarked posts
 	if type==1:
-		feed_content = get_bookmarked(username)
+		feed_content = bm.get_bookmarked(username)
 	else:
 		feed_content = get_feed_user1(username)
 
