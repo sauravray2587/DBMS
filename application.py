@@ -164,7 +164,7 @@ def profile(username, type):
 		elif request.form['button']=="Bookmark":
 			if True:
 				post_bookmark = request.form['button11']
-				bookmark(cur_user, post_bookmark)
+				bm.bookmark(cur_user, post_bookmark)
 				# sleep(2)
 				# feed_content = get_feed1(username, cur_user)
 				# print(feed_content)

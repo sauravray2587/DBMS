@@ -29,7 +29,7 @@ def is_available(username):
 def sign_up(username, name, password, age, email):
     query = "insert into User(username,name,password,age,email) \
             VALUES( '%s', '%s','%s', '%s','%s')" % \
-          (username,name, password, age, email)
+          (username,name, get_md(password), age, email)
     cursor.execute(query)
     cnx.commit()
 
