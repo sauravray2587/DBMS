@@ -59,21 +59,27 @@ def home(username):
 			if True:
 				post_bookmark = request.form['button11']
 				bookmark(cur_user, post_bookmark)
-				feed_content = get_feed1(username, cur_user)
-				all_tags = get_all_tags()
-				all_user = get_all_user()
-				all_comm = get_all_comm()
-				return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				# sleep(2)
+				# feed_content = get_feed1(username, cur_user)
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				return redirect(url_for('home', username = username))
 				
 		elif request.form['button']=="Upvote":
 			if True:
 				post_upvote = request.form['button22']
 				upvote(post_upvote, cur_user)
-				feed_content = get_feed1(username, cur_user)
-				all_tags = get_all_tags()
-				all_user = get_all_user()
-				all_comm = get_all_comm()
-				return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				# feed_content = get_feed1(username, cur_user)
+				# print("Printing after upvote")
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				user1 = username
+				return redirect(url_for('home', username = username))
+				# return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 				
 		elif request.form['button']=="PreRequisite":
 			if True:
@@ -136,11 +142,46 @@ def profile(username):
 			# .... insert a function to unfollow a user
 			unfollow(cur_user, username)
 			is_following = False
-		else:
+		elif request.form['button'] == 'follow':
 			follow(cur_user, username)
 			# .... insert a function to follow a user
 			is_following = True
-		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
+			return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
+		elif request.form['button']=="Bookmark":
+			if True:
+				post_bookmark = request.form['button11']
+				bookmark(cur_user, post_bookmark)
+				# sleep(2)
+				# feed_content = get_feed1(username, cur_user)
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				return redirect(url_for('profile', username = username))
+				
+		elif request.form['button']=="Upvote":
+			if True:
+				post_upvote = request.form['button22']
+				upvote(post_upvote, cur_user)
+				# feed_content = get_feed1(username, cur_user)
+				# print("Printing after upvote")
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				# user1 = username
+				return redirect(url_for('profile', username = username))
+				# return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				
+		elif request.form['button']=="PreRequisite":
+			if True:
+				post_prereq = request.form["button33"]
+				# feed_content = get_prerequisites(cur_user, post_prereq )
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				# return render_template('profile.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				return redirect(url_for('profile', username = username))
 	else:
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow)
 

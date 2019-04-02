@@ -10,7 +10,9 @@ else:
 
 cnx = mysql.connector.connect(user='root', password=pw,
 								  host='127.0.0.1',
-								  database='web')
+								  database='web',
+								  autocommit = True)
+
 cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 
@@ -20,6 +22,8 @@ def get_rating(post_id):
 	# post_id = str(post_id)
 	query = "select count(*) from Post_vote where post_id = %s group by %s "
 	cursor2.execute(query, (post_id, post_id))
+	if cursor2._rowcount == 0:
+		return 0
 
 	for (count, ) in cursor2:
 		return count
