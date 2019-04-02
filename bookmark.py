@@ -39,7 +39,7 @@ def unbookmark(username, post_id):
 def get_bookmarked(username):
 
 	query = ("SELECT Post.post_id, Post.username, content, rating, community_id, post_time\
-			from Post, Bookmark where Post.post_id = Bookmark.post_id and Bookmark.username = %s")
+			FROM Bookmark INNER JOIN Post ON Post.post_id = Bookmark.post_id and Bookmark.username = %s")
 
 	cursor.execute(query, (username, ))
 
@@ -49,4 +49,4 @@ def get_bookmarked(username):
 
 
 if __name__ == '__main__':
-	print(get_bookmarked('piyushrathipr'))
+	print(get_bookmarked('fsociety00'))

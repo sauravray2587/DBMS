@@ -34,8 +34,8 @@ def create_community(community_name, no_of_members = 0, no_of_posts = 0):
 
 def search_community(community_id, cur_user):
 
-	query = ("SELECT post_id, Post.username, content, rating, post_time FROM User_community, Post"
-			 " WHERE Post.username = User_community.username and User_community.community_id = %s")
+	query = ("SELECT post_id, Post.username, content, rating, User_community.community_id, post_time FROM User_community INNER JOIN Post"
+			 " ON Post.username = User_community.username and User_community.community_id = %s")
 
 	cursor.execute(query, (community_id,))
 
@@ -51,5 +51,5 @@ def add_user(community_id,cur_user):
 
 
 if __name__ == '__main__':
-	# print(search_community('0'))
-	add_user("piyushrathipr","0")
+	print(search_community('0',"piyushrathipr"))
+	# add_user("piyushrathipr","0")
