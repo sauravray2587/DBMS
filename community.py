@@ -34,6 +34,12 @@ def search_community(community_id, cur_user):
 	x = get_posts(cursor, cur_user)
 	return x
 
+def community_posts(community_id, cur_user):
+
+	query = "SELECT * FROM Post WHERE Post.community_id = %s"
+	cursor.execute(query,(community_id,))
+	return get_posts(cursor, cur_user)
+
 
 def add_user(community_id,cur_user):
 
@@ -43,5 +49,5 @@ def add_user(community_id,cur_user):
 
 
 if __name__ == '__main__':
-	print(search_community('0',"piyushrathipr"))
+	print(community_posts('0',"piyushrathipr"))
 	# add_user("piyushrathipr","0")
