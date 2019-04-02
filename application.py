@@ -9,6 +9,7 @@ from search_queries import *
 from upvote import *
 from prerequisite import *
 from community import *
+from config import *
 # Route for handling the login page logic
 app = Flask(__name__)
 
@@ -16,6 +17,7 @@ import login_signup as _database
 cur_user = -1
 last_user = -1
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 	global cur_user
@@ -262,7 +264,9 @@ def get_feed_user1(username):
 	if database_active == True:
 		feed_content = stories.search_username(username, cur_user)
 		if len(feed_content)==0:
+			print("user :", username)
 			feed_content = search_community(username, cur_user)
+			print("feed : ", feed_content)
 	else:
 		temp = {}
 		temp['username'] = 'random_user1'

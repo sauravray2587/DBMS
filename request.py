@@ -1,7 +1,7 @@
 import mysql.connector
-from config import connect_database
+from config import *
 
-cnx = connect_database()
+
 cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 

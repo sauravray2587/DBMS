@@ -2,17 +2,7 @@ import mysql.connector
 import operator
 import os
 from datetime import datetime
-
-if (os.environ['USER']=='saurav'):
-    pw = 'qwerty@123'
-else:
-    pw = 'qw'
-
-
-cnx = mysql.connector.connect(user='root', password=pw,
-								  host='127.0.0.1',
-								  database='web',
-								  autocommit = True)
+from config import *
 
 cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)

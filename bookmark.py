@@ -2,18 +2,8 @@ import mysql.connector
 import operator
 import os
 from stories import *
+from config import *
 
-if (os.environ['USER']=='saurav'):
-    pw = 'qwerty@123'
-else:
-    pw = 'qw'
-
-dbase = 'web'
-
-cnx = mysql.connector.connect(user='root', password=pw,
-                                  host='127.0.0.1',
-                                  database=dbase,
-                                  autocommit = True)
 cursor = cnx.cursor(buffered=True)
 
 def bookmark(username, post_id):

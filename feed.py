@@ -2,18 +2,7 @@ import mysql.connector
 from stories import *
 import operator
 import os
-
-
-if (os.environ['USER']=='saurav'):
-    pw = 'qwerty@123'
-else:
-    pw = 'qw'
-
-dbase = 'web'
-
-cnx = mysql.connector.connect(user='root', password=pw,
-                                  host='127.0.0.1',
-                                  database=dbase)
+from config import *
 
 cursor = cnx.cursor(buffered=True)
 

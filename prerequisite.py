@@ -1,8 +1,9 @@
 import mysql.connector
-from config import connect_database
+import config
 from stories import *
+from config import *
 
-cnx = connect_database()
+
 cursor = cnx.cursor(buffered=True)
 cursor1 = cnx.cursor(buffered=True)
 

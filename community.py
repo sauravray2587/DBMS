@@ -2,16 +2,8 @@ import mysql.connector
 import operator
 from stories import *
 import os
+from config import *
 
-if (os.environ['USER']=='saurav'):
-    pw = 'qwerty@123'
-else:
-    pw = 'qw'
-
-cnx = mysql.connector.connect(user='root', password=pw,
-								  host='127.0.0.1',
-								  database='web',
-								  autocommit = True)
 cursor = cnx.cursor(buffered=True)
 
 
@@ -36,9 +28,9 @@ def search_community(community_id, cur_user):
 
 	query = ("SELECT post_id, Post.username, content, rating, User_community.community_id, post_time FROM User_community INNER JOIN Post"
 			 " ON Post.username = User_community.username and User_community.community_id = %s")
-
+	
 	cursor.execute(query, (community_id,))
-
+	print("Size: ", cursor._rowcount)
 	x = get_posts(cursor, cur_user)
 	return x
 

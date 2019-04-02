@@ -2,17 +2,8 @@ import mysql.connector
 import operator
 import os
 from stories import get_posts
+from config import *
 
-if (os.environ['USER']=='saurav'):
-    pw = 'qwerty@123'
-else:
-    pw = 'qw'
-
-dbase = 'web'
-
-cnx = mysql.connector.connect(user='root', password=pw,
-                                  host='127.0.0.1',
-                                  database=dbase)
 cursor = cnx.cursor(buffered=True)
 
 def search_tags(tag, cur_user):
