@@ -4,6 +4,10 @@ import stories
 from datetime import datetime
 from get_all import *
 from following import *
+from bookmark import *
+from search_queries import *
+from upvote import *
+from prerequisite import *
 # Route for handling the login page logic
 app = Flask(__name__)
 
@@ -53,9 +57,33 @@ def home(username):
 				return redirect(url_for('profile', username = request.form["users"]))
 		elif request.form['button']=="Bookmark":
 			if True:
-				post_bookmark = request.form['button1']
+				post_bookmark = request.form['button11']
+				bookmark(cur_user, post_bookmark)
+				feed_content = get_feed1(username, cur_user)
+				all_tags = get_all_tags()
+				all_user = get_all_user()
+				all_comm = get_all_comm()
+				return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 				
-
+		elif request.form['button']=="Upvote":
+			if True:
+				post_upvote = request.form['button22']
+				upvote(post_upvote, cur_user)
+				feed_content = get_feed1(username, cur_user)
+				all_tags = get_all_tags()
+				all_user = get_all_user()
+				all_comm = get_all_comm()
+				return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				
+		elif request.form['button']=="PreRequisite":
+			if True:
+				post_prereq = request.form["button33"]
+				feed_content = get_prerequisites(cur_user, post_prereq )
+				all_tags = get_all_tags()
+				all_user = get_all_user()
+				all_comm = get_all_comm()
+				return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				
 		elif request.form['button']=="Search Community":
 			if True:
 				print(request.form["comm"])
@@ -70,12 +98,13 @@ def home(username):
 			# tags = request.form['categories[]']
 			# print(tags)
 			# print("Hello")
-			tag = request.form["tags"]
-			feed_content = get_feed_given_tags(tag)
+			tags = request.form["tags"]
+			feed_content = search_tags(tags, cur_user)
 			all_tags = get_all_tags()
 			all_user = get_all_user()
 			all_comm = get_all_comm()
 			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+			
 			# return "Tags are : %s" %request.form['tags']
 		else:
 			# .... insert a function to bookmark here
@@ -135,12 +164,13 @@ def post():
 		tags = tags.split(',')
 		
 		preq = request.form['preq']
-		preq = preq.replace(" ", "")
-		preq = preq.split(',')
+		# preq = preq.replace(" ", "")
+		# preq = preq.split(',')
 		comm = request.form['comm']
 		# assign username here
 		username = cur_user
-		stories.user_post(username, content, 5, tags, comm)
+		new_post = stories.user_post(username, content, 5, tags, comm)
+		create_prerequisite(new_post, preq)
 		# post_to_database()
 		return redirect(url_for('home', username = cur_user ))
 	return render_template("post.html")
@@ -153,12 +183,12 @@ def post():
 
 # 	return redirect(url_for('home', username = cur_user ))
 
-@app.route('/upvote/<upvote_id>', methods = ['GET', 'POST'])
-def upvote(upvote_id):
-	# .... a function here
-	print("upvoted, ", upvote_id)
-	# return "Hello"
-	return redirect(url_for('home', username = cur_user ))
+# @app.route('/upvote/<upvote_id>', methods = ['GET', 'POST'])
+# def upvote(upvote_id):
+# 	# .... a function here
+# 	print("upvoted, ", upvote_id)
+# 	# return "Hello"
+# 	return redirect(url_for('home', username = cur_user ))
 
 def get_feed1(username, cur_user):
 	database_active = True

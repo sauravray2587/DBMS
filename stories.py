@@ -17,8 +17,9 @@ cursor1 = cnx.cursor(buffered=True)
 
 def get_rating(post_id):
 	cursor2 = cnx.cursor(buffered=True)
-	query = "select count(*) from Post_vote group by %s"
-	cursor2.execute(query, (post_id,))
+	# post_id = str(post_id)
+	query = "select count(*) from Post_vote where post_id = %s group by %s "
+	cursor2.execute(query, (post_id, post_id))
 
 	for (count, ) in cursor2:
 		return count
@@ -62,7 +63,7 @@ def user_post(username, content, rating = 0, tags = [], community_id = None):
 
 		cnx.commit()
 
-
+	return id_here
 
 
 def get_posts(cursor, cur_user):

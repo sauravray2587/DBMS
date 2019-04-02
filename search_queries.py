@@ -1,5 +1,4 @@
 import mysql.connector
-from stories import search_posts
 import operator
 import os
 from stories import get_posts

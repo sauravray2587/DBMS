@@ -15,7 +15,7 @@ cnx = mysql.connector.connect(user='root', password=pw,
 cursor = cnx.cursor(buffered=True)
 
 def bookmark(username, post_id):
-
+	
 	query = ("INSERT INTO Bookmark VALUES( %s, %s)")
 	cursor.execute(query, (username, post_id))
 	cnx.commit()
