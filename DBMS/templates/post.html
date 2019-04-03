@@ -1,0 +1,72 @@
+<html>
+    <head>
+    <title>Post something</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <script src="../static/js/script.js"></script>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="../static/js/main.js"></script>
+
+    </head>
+    <body>
+
+    <div class="search-box">
+      <h1>Post</h1>
+      <br>
+    
+      <div class = "category" >
+         <form id="form2" action="" method="POST" enctype="multipart/form-data">
+            <!-- <div style="text-align: right; " > -->
+             
+             <div class="input-group inner-addon left-addon">
+                         <i class="glyphicon glyphicon-search"></i>
+                         <input class="form-control" id="querybox" name="content"
+                                placeholder="Content"
+                                style="font-family:Arial, FontAwesome" type="text" value="{{
+              request.form.content }}">
+
+             </div>
+             <br>
+               <select class="category-select" id="categories-opt12" name = "tags" >
+                 {% for tag in all_tags %}
+                 <option value="{{ tag }}">{{ tag }}</option>
+                 {% endfor %}
+               </select>
+             <br>
+
+               <select class="category-select" id="categories-opt11" name = "preq" >
+                 {% for preq in all_preq %}
+                 <option value="{{ preq['post_id'] }}">{{ preq['content'] }}</option>
+                 {% endfor %}
+              </select>
+             <br>
+
+               <select class="category-select" id="categories-opt13" name = "comm" >
+                 {% for comm in all_comm %}
+                 <option value="{{ comm }}">{{ comm }}</option>
+                 {% endfor %}
+               </select>
+
+             <br>
+
+             <input  class="btn btn-default" align = "centre" type="submit" name = "button" value="Post">
+           <!-- </div> -->
+         </form>
+      </div>
+
+    </div>
+
+    </body>
+</html>

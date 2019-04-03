@@ -1,0 +1,70 @@
+<html>
+
+  <head>
+    <title>Main Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="static/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <script src="../static/js/script.js"></script>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    
+  </head>
+
+
+  <body>
+
+    <div class="container">
+      <h1>Login</h1>
+      <br>
+      <form action="" method="post">
+        <input type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}">
+         <input type="password" placeholder="Password" name="password" value="{{
+          request.form.password }}">
+        <input class="btn btn-default" type="submit" name = "submit-button" value="login">
+      </form>
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+
+
+    <div class="container">
+      <h1>Sign Up</h1>
+      <br>
+      
+      <form action="" method="post">
+
+        <input type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}">
+        <input type="text" placeholder="Name" name="name" value="{{
+          request.form.name }}">
+         <input type="password" placeholder="Password" name="password" value="{{
+          request.form.password }}">
+        <input type="email" placeholder="Email" name="email" value="{{
+          request.form.email }}">
+        <input type="number" placeholder="Age" name="age" value="{{
+          request.form.age }}">
+        <input class="btn btn-default" type="submit" name = "submit-button" value="signup">
+      </form>
+
+      {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+    </div>
+
+
+  </body>
+</html>
