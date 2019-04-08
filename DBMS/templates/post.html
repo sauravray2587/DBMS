@@ -29,20 +29,29 @@
       <div class = "category" >
          <form id="form2" action="" method="POST" enctype="multipart/form-data">
             <!-- <div style="text-align: right; " > -->
-              <input type="text" placeholder="content" name="content" value="{{
+             
+             <div class="input-group inner-addon left-addon">
+                         <i class="glyphicon glyphicon-search"></i>
+                         <input class="form-control" id="querybox" name="content"
+                                placeholder="Content"
+                                style="font-family:Arial, FontAwesome" type="text" value="{{
               request.form.content }}">
-              
+
+             </div>
+             <br>
                <select class="category-select" id="categories-opt12" name = "tags" >
                  {% for tag in all_tags %}
                  <option value="{{ tag }}">{{ tag }}</option>
                  {% endfor %}
                </select>
+             <br>
 
                <select class="category-select" id="categories-opt11" name = "preq" >
                  {% for preq in all_preq %}
                  <option value="{{ preq['post_id'] }}">{{ preq['content'] }}</option>
                  {% endfor %}
-               </select>
+              </select>
+             <br>
 
                <select class="category-select" id="categories-opt13" name = "comm" >
                  {% for comm in all_comm %}
@@ -52,7 +61,7 @@
 
              <br>
 
-             <input  class="btn btn-default" type="submit" name = "button" value="Post">
+             <input  class="btn btn-default" align = "centre" type="submit" name = "button" value="Post">
            <!-- </div> -->
          </form>
       </div>

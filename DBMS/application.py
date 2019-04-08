@@ -23,16 +23,17 @@ def login():
 	global cur_user
 	error = None
 	if request.method == 'POST':
-		# If login 
-		# if thi
+		# If login request
 		if (request.form['submit-button'] == 'login'):
 			print(request.form['username'], request.form['password'] )
 			if _database.check_login(request.form['username'], request.form['password']) != True:
 				error = 'Invalid Credentials. Please try again.'			
 			else:
 				cur_user = request.form['username']
+				print(cur_user)
 				return redirect(url_for('home', username = request.form['username']) )
-		else:	
+		else:
+			print(2)	
 			if _database.is_available(request.form['username']) == False:
 				error = "Username already exists, Try another"
 			else:			
@@ -48,45 +49,74 @@ def home(username):
 	# Put Different Tabs for the different features
 	print("Requesting Feed")
 	feed_content = get_feed1(username, cur_user)
-	all_tags = get_all_tags()
-	all_user = get_all_user()
-	all_comm = get_all_comm()
 
 	if request.method == 'POST':
 		if request.form['button']=="Search User":
-			return redirect(url_for('profile', username = request.form["users"], type = 0))
-
+			if True:
+				print(request.form["users"])
+				# Replace here with something else
+				# Where to display the user?
+				# search_for_user
+				# last_user = request.form["users"]
+				return redirect(url_for('profile', username = request.form["users"], type = 0))
 		elif request.form['button']=="Show Bookmarks":
-			return redirect(url_for('bookmark', username = cur_user))
+			if True:
+				return redirect(url_for('bookmark', username = cur_user))
 
 		elif request.form['button']=="Bookmark":
-			
-			post_bookmark = request.form['button11']
-			bm.bookmark(cur_user, post_bookmark)
-			return redirect(url_for('home', username = username))
+			if True:
+				post_bookmark = request.form['button11']
+				bm.bookmark(cur_user, post_bookmark)
+				# sleep(2)
+				# feed_content = get_feed1(username, cur_user)
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				return redirect(url_for('home', username = username))
 				
 		elif request.form['button']=="Upvote":
-			
-			post_upvote = request.form['button22']
-			upvote(post_upvote, cur_user)
-			return redirect(url_for('home', username = username))
-
+			if True:
+				post_upvote = request.form['button22']
+				upvote(post_upvote, cur_user)
+				# feed_content = get_feed1(username, cur_user)
+				# print("Printing after upvote")
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				user1 = username
+				return redirect(url_for('home', username = username))
+				# return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+				
 		elif request.form['button']=="PreRequisite":
-			
-			post_prereq = request.form["button33"]
-			feed_content = get_prerequisites(cur_user, post_prereq )
-			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
+			if True:
+				post_prereq = request.form["button33"]
+				feed_content = get_prerequisites(cur_user, post_prereq )
+				all_tags = get_all_tags()
+				all_user = get_all_user()
+				all_comm = get_all_comm()
+				return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 				
 		elif request.form['button']=="Search Community":
-			
-			return redirect(url_for('profile', username = request.form["comm"], type = 0))
-		
+			if True:
+				print(request.form["comm"])
+				# Replace here with something else
+				# Where to display the user?
+				# search_for_user
+				# last_user = request.form["comm"]
+				return redirect(url_for('profile', username = request.form["comm"], type = 0))
 		elif request.form['button']=="My Profile":
 			return redirect(url_for('profile', username = cur_user, type = 0))
-		
 		elif request.form['button']=="Search Tag":
+			# tags = request.form['categories[]']
+			# print(tags)
+			# print("Hello")
 			tags = request.form["tags"]
 			feed_content = search_tags(tags, cur_user)
+			all_tags = get_all_tags()
+			all_user = get_all_user()
+			all_comm = get_all_comm()
 			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 			
 			# return "Tags are : %s" %request.form['tags']
@@ -94,8 +124,14 @@ def home(username):
 			# .... insert a function to bookmark here
 			feed_id = request.form['button']
 			print(feed_id)
+			all_tags = get_all_tags()
+			all_user = get_all_user()
+			all_comm = get_all_comm()
 			return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_user = all_user, all_comm = all_comm)
 
+	all_tags = get_all_tags()
+	all_user = get_all_user()
+	all_comm = get_all_comm()
 	return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags =all_tags ,all_user = all_user, all_comm = all_comm)
 
 @app.route('/profile/<username>/<int:type>', methods = ['GET', 'POST'])
@@ -130,12 +166,25 @@ def profile(username, type):
 			if True:
 				post_bookmark = request.form['button11']
 				bm.bookmark(cur_user, post_bookmark)
+				# sleep(2)
+				# feed_content = get_feed1(username, cur_user)
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
 				return redirect(url_for('profile', username = username, type = 0))
 				
 		elif request.form['button']=="Upvote":
 			if True:
 				post_upvote = request.form['button22']
 				upvote(post_upvote, cur_user)
+				# feed_content = get_feed1(username, cur_user)
+				# print("Printing after upvote")
+				# print(feed_content)
+				# all_tags = get_all_tags()
+				# all_user = get_all_user()
+				# all_comm = get_all_comm()
+				# user1 = username
 				return redirect(url_for('profile', username = username, type = 0))
 				# return render_template('feed.html', username = cur_user,  all_feeds = feed_content, all_tags = all_tags, all_user = all_user, all_comm = all_comm)
 				
@@ -152,6 +201,14 @@ def profile(username, type):
 		return render_template('profile.html', all_feeds = feed_content, follow_status = is_following, display_follow = display_follow, username = username)
 
 
+
+# @app.route('/bookmark/<feed_id>', methods = ['GET', 'POST'])
+# def bookmark(feed_id):
+# 	print(cur_user)
+# 	# add_to_bookmarks(feed_number, username)
+# 	# return "Feed Number %s, bookmarked" 
+# 	return redirect(url_for('home', username = cur_user))
+
 @app.route('/post', methods = ['GET', 'POST'])
 def post():
 	# add_to_bookmarks(feed_number, username)
@@ -163,8 +220,9 @@ def post():
 		# tags = tags.split(',')
 		
 		preq = request.form['preq']
-
 		print(preq)
+		# preq = preq.replace(" ", "")
+		# preq = preq.split(',')
 		comm = request.form['comm']
 		# assign username here
 		username = cur_user
@@ -182,20 +240,45 @@ def post():
 def bookmark(username):
 	# .... a function here
 	# bookmark_feeds = get_bookmarked(username)
+	print(username)
 	return redirect(url_for('profile', username = cur_user, type = 1))
 
+# @app.route('/upvote/<upvote_id>', methods = ['GET', 'POST'])
+# def upvote(upvote_id):
+# 	# .... a function here
+# 	print("upvoted, ", upvote_id)
+# 	# return "Hello"
+# 	return redirect(url_for('home', username = cur_user ))
 
 def get_feed1(username, cur_user):
-
-	feed_content = feed.get_feed(cur_user)
+	database_active = True
+	if database_active == True:
+		feed_content = feed.get_feed(cur_user)
+		print("feed len", len(feed_content))
+	else:
+		temp = {}
+		temp['username'] = 'random_user1'
+		temp['date'] = '20/03/2019'
+		temp['tags'] = ['ab', 'cd']
+		temp['content'] = ['Hello Friends']
+		temp['id'] = 2
+		feed_content = [temp]
 	return feed_content
 
 def get_feed_user1(username):
-	feed_content = stories.search_username(username, cur_user)
-
-	if len(feed_content)==0:
-		print("user :", username)
-		feed_content = community_posts(username, cur_user)
-		print("feed : ", feed_content)
-
+	database_active = True
+	if database_active == True:
+		feed_content = stories.search_username(username, cur_user)
+		if len(feed_content)==0:
+			print("user :", username)
+			feed_content = community_posts(username, cur_user)
+			print("feed : ", feed_content)
+	else:
+		temp = {}
+		temp['username'] = 'random_user1'
+		temp['date'] = '20/03/2019'
+		temp['tags'] = ['ab', 'cd']
+		temp['content'] = ['Hello Friends, hahaha']
+		temp['id'] = 1
+		feed_content = [temp]
 	return feed_content
